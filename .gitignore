@@ -1,0 +1,11 @@
+/.vs
+/Examples/SwordWorld.GameServers/bin
+/Examples/SwordWorld.GameServers/obj
+/Test/Remote.Tests/bin
+/Test/Remote.Tests/obj
+/Test/Services.Tests/bin
+/Test/Services.Tests/obj
+/Test/Services.Tests.HelloFramework/bin
+/Test/Services.Tests.HelloFramework/obj
+/ZyGames.Framework/bin
+/ZyGames.Framework/obj

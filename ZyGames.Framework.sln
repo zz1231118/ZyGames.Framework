@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZyGames.Framework", "ZyGames.Framework\ZyGames.Framework.csproj", "{7E2F8780-54C3-46D9-A71F-7CAAF8DC051F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DCC4C276-4BEF-4217-AD6B-1B1C7A73CD96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwordWorld.GameServers", "Examples\SwordWorld.GameServers\SwordWorld.GameServers.csproj", "{F03CB5B4-7746-43FF-B9A5-216CCE86C45E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BCF305FA-E0CD-421A-A5CF-84D7E94450BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Remote.Tests", "Test\Remote.Tests\Remote.Tests.csproj", "{0DBCEF9E-FA5B-49CC-B34D-4E098A1ED36D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Tests", "Test\Services.Tests\Services.Tests.csproj", "{D1DACB34-794C-4284-B1D0-3A4BD7707C7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Tests.HelloFramework", "Test\Services.Tests.HelloFramework\Services.Tests.HelloFramework.csproj", "{C2755C7D-B8F3-401D-B059-CBAD75CC9C40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E2F8780-54C3-46D9-A71F-7CAAF8DC051F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2F8780-54C3-46D9-A71F-7CAAF8DC051F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2F8780-54C3-46D9-A71F-7CAAF8DC051F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2F8780-54C3-46D9-A71F-7CAAF8DC051F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F03CB5B4-7746-43FF-B9A5-216CCE86C45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F03CB5B4-7746-43FF-B9A5-216CCE86C45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F03CB5B4-7746-43FF-B9A5-216CCE86C45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F03CB5B4-7746-43FF-B9A5-216CCE86C45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DBCEF9E-FA5B-49CC-B34D-4E098A1ED36D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DBCEF9E-FA5B-49CC-B34D-4E098A1ED36D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DBCEF9E-FA5B-49CC-B34D-4E098A1ED36D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DBCEF9E-FA5B-49CC-B34D-4E098A1ED36D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1DACB34-794C-4284-B1D0-3A4BD7707C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1DACB34-794C-4284-B1D0-3A4BD7707C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1DACB34-794C-4284-B1D0-3A4BD7707C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1DACB34-794C-4284-B1D0-3A4BD7707C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2755C7D-B8F3-401D-B059-CBAD75CC9C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2755C7D-B8F3-401D-B059-CBAD75CC9C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2755C7D-B8F3-401D-B059-CBAD75CC9C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2755C7D-B8F3-401D-B059-CBAD75CC9C40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F03CB5B4-7746-43FF-B9A5-216CCE86C45E} = {DCC4C276-4BEF-4217-AD6B-1B1C7A73CD96}
+		{0DBCEF9E-FA5B-49CC-B34D-4E098A1ED36D} = {BCF305FA-E0CD-421A-A5CF-84D7E94450BA}
+		{D1DACB34-794C-4284-B1D0-3A4BD7707C7A} = {BCF305FA-E0CD-421A-A5CF-84D7E94450BA}
+		{C2755C7D-B8F3-401D-B059-CBAD75CC9C40} = {BCF305FA-E0CD-421A-A5CF-84D7E94450BA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FD771BA-2F4A-4E92-80EA-2682ADE7EAB3}
+	EndGlobalSection
+EndGlobal

@@ -1,6 +1,7 @@
 # ZyGames.Framework
 
-## 一：功能介绍
+## 简介
+ZyGames.Framework 是一个轻量级的游戏服务端通讯框架
 
 ### 1.示例：
 ```C#

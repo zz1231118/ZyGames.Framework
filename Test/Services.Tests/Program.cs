@@ -21,10 +21,6 @@ namespace Services.Tests
 
         static void Main(string[] args)
         {
-            var bindingAttr = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly | System.Reflection.BindingFlags.InvokeMethod;
-            var serviceType = typeof(IAWorldService);
-            var methods = serviceType.GetMethods(bindingAttr);
-
             var loggerFactory = new LoggerFactory();
             loggerFactory.AddProvider<ConsoleLoggerProvider>();
             Logger.LoggerFactory = loggerFactory;
@@ -48,7 +44,6 @@ namespace Services.Tests
 
             builder.AddService<ISayService, SayService>(metadata: new ServiceMetadata() { ID = 45 });
             builder.AddService<IHelloService, HelloService>();
-            builder.AddService<IWorldService, WorldService>();
             serviceHost = builder.Build();
             serviceHost.Lifecycle.WithStarted(nameof(Program), (token) =>
             {
@@ -75,23 +70,8 @@ namespace Services.Tests
         string SayHello(string name);
     }
 
-    public interface IWorldService : IService
-    {
-        string SayWorld(string name);
-    }
-
     public class SayService : Service, ISayService
     {
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-        }
-
         public string Say(string name)
         {
             var helloService = ServiceFactory.GetSingleService<IHelloService>();
@@ -103,16 +83,7 @@ namespace Services.Tests
     {
         public string SayHello(string name)
         {
-            var worldService = ServiceFactory.GetSingleService<IWorldService>();
-            return string.Format("hello {0}", worldService.SayWorld(name));
-        }
-    }
-
-    public class WorldService : Service, IWorldService
-    {
-        public string SayWorld(string name)
-        {
-            return string.Format("world {0}", name);
+            return string.Format("hello {0}", name);
         }
     }
 

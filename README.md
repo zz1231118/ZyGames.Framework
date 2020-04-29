@@ -1,5 +1,8 @@
 # ZyGames.Framework
 
+## 一：功能介绍
+
+### 1.示例：
 ```C#
 public interface ISayService : IService
 {
@@ -9,11 +12,6 @@ public interface ISayService : IService
 public interface IHelloService : IService
 {
     string SayHello(string name);
-}
-
-public interface IWorldService : IService
-{
-    string SayWorld(string name);
 }
 
 public class SayService : Service, ISayService
@@ -29,16 +27,7 @@ public class HelloService : Service, IHelloService
 {
     public string SayHello(string name)
     {
-        var worldService = ServiceFactory.GetSingleService<IWorldService>();
-        return string.Format("hello {0}", worldService.SayWorld(name));
-    }
-}
-
-public class WorldService : Service, IWorldService
-{
-    public string SayWorld(string name)
-    {
-        return string.Format("world {0}", name);
+        return string.Format("hello {0}", name);
     }
 }
 
@@ -71,7 +60,6 @@ class Program
 
         builder.AddService<ISayService, SayService>(metadata: new ServiceMetadata() { ID = 45 });
         builder.AddService<IHelloService, HelloService>();
-        builder.AddService<IWorldService, WorldService>();
         serviceHost = builder.Build();
         serviceHost.Lifecycle.WithStarted(nameof(Program), (token) =>
         {
@@ -79,6 +67,7 @@ class Program
             var helloService = serviceFactory.GetSingleService<ISayService>();
             var metadata = helloService.Metadata;
             var result = helloService.Say("cxx");
+			//result: say hello cxx
         });
 
         serviceHost.Start();

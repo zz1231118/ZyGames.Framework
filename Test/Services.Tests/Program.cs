@@ -5,16 +5,6 @@ using ZyGames.Framework.Services.Options;
 
 namespace Services.Tests
 {
-    interface IAHelloService
-    {
-        void Hello();
-    }
-    interface IAWorldService : IAHelloService
-    {
-        long ID { get; }
-
-        void World();
-    }
     class Program
     {
         private static ServiceHost serviceHost;
@@ -67,7 +57,7 @@ namespace Services.Tests
 
     public interface IHelloService : IService
     {
-        string SayHello(string name);
+        string Hello(string name);
     }
 
     public class SayService : Service, ISayService
@@ -75,13 +65,13 @@ namespace Services.Tests
         public string Say(string name)
         {
             var helloService = ServiceFactory.GetSingleService<IHelloService>();
-            return string.Format("say {0}", helloService.SayHello(name));
+            return string.Format("say {0}", helloService.Hello(name));
         }
     }
 
     public class HelloService : Service, IHelloService
     {
-        public string SayHello(string name)
+        public string Hello(string name)
         {
             return string.Format("hello {0}", name);
         }

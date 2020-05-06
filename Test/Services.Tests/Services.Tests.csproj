@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ZyGames.Framework\ZyGames.Framework.csproj" />
-    <ProjectReference Include="..\Services.Tests.HelloFramework\Services.Tests.HelloFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>

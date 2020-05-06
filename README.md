@@ -12,7 +12,7 @@ public interface ISayService : IService
 
 public interface IHelloService : IService
 {
-    string SayHello(string name);
+    string Hello(string name);
 }
 
 public class SayService : Service, ISayService
@@ -20,13 +20,13 @@ public class SayService : Service, ISayService
     public string Say(string name)
     {
         var helloService = ServiceFactory.GetSingleService<IHelloService>();
-        return string.Format("say {0}", helloService.SayHello(name));
+        return string.Format("say {0}", helloService.Hello(name));
     }
 }
 
 public class HelloService : Service, IHelloService
 {
-    public string SayHello(string name)
+    public string Hello(string name)
     {
         return string.Format("hello {0}", name);
     }
@@ -68,7 +68,7 @@ class Program
             var helloService = serviceFactory.GetSingleService<ISayService>();
             var metadata = helloService.Metadata;
             var result = helloService.Say("cxx");
-			//result: say hello cxx
+	    //result: say hello cxx
         });
 
         serviceHost.Start();

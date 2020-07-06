@@ -21,7 +21,7 @@ namespace ZyGames.Framework.Services
         private GatewayConnectionListener connectionListener;
         private IServiceHostLifecycle hostingLifecycle;
         private IClusterMembershipService clusterMembershipService;
-        private Timer membershipUpdateTimer;
+        private Timer membershipCheckingUpdateTimer;
         private MembershipEntry membershipEntry;
         private bool isAlived;
 
@@ -37,7 +37,7 @@ namespace ZyGames.Framework.Services
             return membershipTable;
         }
 
-        private void MembershipChecking()
+        private void MembershipCheckingUpdate()
         {
             try
             {
@@ -58,30 +58,30 @@ namespace ZyGames.Framework.Services
             {
                 isAlived = false;
                 //applicationLifecycle.NotifyObserver(ApplicationLifecycle.Starting);
-                logger.Warn("{0}.{1} error:{2}", nameof(GatewayMembershipService), nameof(MembershipChecking), ex);
+                logger.Warn("{0}.{1} error:{2}", nameof(GatewayMembershipService), nameof(MembershipCheckingUpdate), ex);
             }
         }
 
-        private void MembershipCheckingCallback(object obj)
+        private void MembershipCheckingCallbacked(object obj)
         {
-            var updatePeriod = Timeout.InfiniteTimeSpan;
-            membershipUpdateTimer.Change(updatePeriod, updatePeriod);
-
+            var checkingUpdatePeriod = Timeout.InfiniteTimeSpan;
+            membershipCheckingUpdateTimer.Change(checkingUpdatePeriod, checkingUpdatePeriod);
             InvokerContext.Caller = this;
+
             try
             {
-                MembershipChecking();
+                MembershipCheckingUpdate();
             }
             finally
             {
                 InvokerContext.Caller = null;
             }
 
-            updatePeriod = membershipServiceOptions.MembershipUpdatePeriod;
-            membershipUpdateTimer.Change(updatePeriod, updatePeriod);
+            checkingUpdatePeriod = membershipServiceOptions.MembershipCheckingUpdatePeriod;
+            membershipCheckingUpdateTimer.Change(checkingUpdatePeriod, checkingUpdatePeriod);
         }
 
-        internal protected override void Initialize()
+        protected internal override void Initialize()
         {
             base.Initialize();
             this.membershipServiceOptions = ServiceProvider.GetRequiredService<GatewayMembershipServiceOptions>();
@@ -102,19 +102,19 @@ namespace ZyGames.Framework.Services
             lifecycle.Subscribe(nameof(GatewayMembershipService), Lifecycles.Stage.System, this);
         }
 
-        internal protected override void Start()
+        protected internal override void Start()
         {
             base.Start();
             connectionListener = new GatewayConnectionListener(ServiceProvider, membershipServiceOptions);
             connectionListener.Start();
 
-            MembershipChecking();
+            MembershipCheckingUpdate();
 
-            var updatePeriod = membershipServiceOptions.MembershipUpdatePeriod;
-            membershipUpdateTimer = new Timer(new TimerCallback(MembershipCheckingCallback), null, updatePeriod, updatePeriod);
+            var checkingUpdatePeriod = membershipServiceOptions.MembershipCheckingUpdatePeriod;
+            membershipCheckingUpdateTimer = new Timer(new TimerCallback(MembershipCheckingCallbacked), null, checkingUpdatePeriod, checkingUpdatePeriod);
         }
 
-        internal protected override void Stop()
+        protected internal override void Stop()
         {
             base.Stop();
             if (isAlived)
@@ -129,7 +129,7 @@ namespace ZyGames.Framework.Services
                 }
             }
 
-            membershipUpdateTimer.Dispose();
+            membershipCheckingUpdateTimer.Dispose();
             connectionListener.Stop();
         }
 

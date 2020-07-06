@@ -24,7 +24,7 @@ namespace ZyGames.Framework.Services.Options
 
         public int MaxConnections { get; set; }
 
-        public TimeSpan RequestTimeout { get; set; } = TimeSpan.FromSeconds(10);
+        public TimeSpan RequestTimeout { get; set; } = TimeSpan.FromSeconds(30);
 
         public int Overloaded { get; set; }
 

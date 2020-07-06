@@ -28,6 +28,12 @@ namespace ZyGames.Framework.Injection
             return null;
         }
 
+        public ServiceDescriptor GetServiceDescriptor<TService>()
+            where TService : class
+        {
+            return GetServiceDescriptor(typeof(TService));
+        }
+
         public IServiceProvider Build()
         {
             return new ServiceProvider(this);
@@ -144,19 +150,33 @@ namespace ZyGames.Framework.Injection
                 this.collection = collection;
             }
 
+            private ConstructorInfo GetAvailableConstructor(Type implementationType)
+            {
+                var bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+                var constructors = implementationType.GetConstructors(bindingAttr);
+                if (constructors.Length == 1)
+                {
+                    return constructors[0];
+                }
+                if (constructors.Length > 1)
+                {
+                    return implementationType.GetConstructor(bindingAttr, null, Type.EmptyTypes, null);
+                }
+
+                return null;
+            }
+
             private Func<IServiceProvider, object> CreateImplementationFactory(ServiceDescriptor descriptor, List<Type> callings)
             {
                 return new Func<IServiceProvider, object>((provider) =>
                 {
-                    var bindingAttr = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-                    var constructors = descriptor.ImplementationType.GetConstructors(bindingAttr);
-                    if (constructors.Length != 1)
+                    var constructor = GetAvailableConstructor(descriptor.ImplementationType);
+                    if (constructor == null)
                     {
                         throw new InvalidOperationException("not supported service constructor: " + descriptor.ServiceType.FullName);
                     }
 
                     var callingInitializing = false;
-                    var constructor = constructors[0];
                     var parameters = constructor.GetParameters();
                     var arguments = new object[parameters.Length];
                     var serviceProviderType = typeof(IServiceProvider);

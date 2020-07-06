@@ -50,7 +50,7 @@ namespace ZyGames.Framework.Services
             }
         }
 
-        internal protected override void Initialize()
+        protected internal override void Initialize()
         {
             base.Initialize();
             membershipServiceOptions = ServiceProvider.GetRequiredService<ClusterMembershipServiceOptions>();
@@ -59,7 +59,7 @@ namespace ZyGames.Framework.Services
             Identity = Constants.ClusterMembershipServiceIdentity;
         }
 
-        internal protected override void Start()
+        protected internal override void Start()
         {
             base.Start();
             connectionListener = new ClusterConnectionListener(ServiceProvider, membershipServiceOptions);
@@ -67,7 +67,7 @@ namespace ZyGames.Framework.Services
             connectionListener.Start();
         }
 
-        internal protected override void Stop()
+        protected internal override void Stop()
         {
             base.Stop();
             connectionListener.Stop();
@@ -81,10 +81,10 @@ namespace ZyGames.Framework.Services
         public MembershipSnapshot Register(MembershipTable table)
         {
             var entry = table.Entry;
-            var session = ServiceFactory.GetSystemTarget<IGatewayMembershipService>(entry.Identity, entry.Address);
-            var member = new MembershipMember(session, table);
-            membershipMembers[member.Address] = member;
-            NotifyMembershipTableChanged(membershipVersion.Increment(), member.Identity);
+            var systemTarget = ServiceFactory.GetSystemTarget<IGatewayMembershipService>(entry.Identity, entry.Address);
+            var membershipMember = new MembershipMember(systemTarget, table);
+            membershipMembers[membershipMember.Address] = membershipMember;
+            NotifyMembershipTableChanged(membershipVersion.Increment(), membershipMember.Identity);
             return CreateSnapshot();
         }
 
@@ -139,12 +139,12 @@ namespace ZyGames.Framework.Services
 
         class MembershipMember
         {
-            private readonly IGatewayMembershipService session;
+            private readonly IGatewayMembershipService systemTarget;
             private MembershipTable table;
 
-            public MembershipMember(IGatewayMembershipService session, MembershipTable table)
+            public MembershipMember(IGatewayMembershipService systemTarget, MembershipTable table)
             {
-                this.session = session;
+                this.systemTarget = systemTarget;
                 this.table = table;
             }
 
@@ -166,12 +166,12 @@ namespace ZyGames.Framework.Services
 
             public void MembershipTableChanged(MembershipVersion version)
             {
-                session.MembershipTableChanged(version);
+                systemTarget.MembershipTableChanged(version);
             }
 
             public void KillService(Identity identity)
             {
-                session.KillService(identity);
+                systemTarget.KillService(identity);
             }
         }
     }

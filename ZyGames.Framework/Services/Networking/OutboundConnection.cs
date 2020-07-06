@@ -78,7 +78,7 @@ namespace ZyGames.Framework.Services.Networking
 
             remoteSlioAddress = address;
             socket = new TcpClient();
-            socket.IsSynchronizing = false;
+            //socket.SendOperation = SocketOperation.Synchronization;
             socket.Connected += new EventHandler<SocketEventArgs>(Socket_Connected);
             socket.Connect(address.EndPoint);
         }

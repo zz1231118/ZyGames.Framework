@@ -45,7 +45,7 @@ namespace ZyGames.Framework.Services
 
         private static int GetTypeCode(Type type)
         {
-            return CalculateIdHash(type.AssemblyQualifiedName);
+            return CalculateIdHash(type.FullName);
         }
 
         private static string FormatMethodForIdComputation(MethodInfo methodInfo)
@@ -57,11 +57,11 @@ namespace ZyGames.Framework.Services
                 var genericArguments = methodInfo.GetGenericArguments();
                 if (genericArguments.Length > 0)
                 {
-                    sb.Append(genericArguments[0].AssemblyQualifiedName);
+                    sb.Append(genericArguments[0].FullName);
                     for (int i = 1; i < genericArguments.Length; i++)
                     {
                         sb.Append(',');
-                        sb.Append(genericArguments[i].AssemblyQualifiedName);
+                        sb.Append(genericArguments[i].FullName);
                     }
                 }
                 sb.Append('>');
@@ -74,13 +74,13 @@ namespace ZyGames.Framework.Services
             {
                 parameterType = parameters[0].ParameterType;
                 if (parameterType.IsGenericParameter) sb.Append(parameterType.Name);
-                else sb.Append(parameterType.AssemblyQualifiedName);
+                else sb.Append(parameterType.FullName);
                 for (int i = 1; i < parameters.Length; i++)
                 {
                     sb.Append(',');
                     parameterType = parameters[i].ParameterType;
                     if (parameterType.IsGenericParameter) sb.Append(parameterType.Name);
-                    else sb.Append(parameterType.AssemblyQualifiedName);
+                    else sb.Append(parameterType.FullName);
                 }
             }
             sb.Append(')');

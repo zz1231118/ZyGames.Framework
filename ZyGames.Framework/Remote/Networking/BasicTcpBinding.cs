@@ -31,12 +31,12 @@ namespace ZyGames.Framework.Remote.Networking
                 this.serializer = serializer;
             }
 
-            public Guid Guid => socket.HashCode;
+            public Guid Guid => socket.Guid;
 
             public override void SendMessage(Message message)
             {
                 var bytes = serializer.Serialize(message);
-                socketListener.PostSend(socket, bytes);
+                socketListener.Send(socket, bytes);
             }
 
             public void Close()
@@ -79,7 +79,7 @@ namespace ZyGames.Framework.Remote.Networking
 
             private void SocketListener_Disconnected(object sender, SocketEventArgs e)
             {
-                connections.TryRemove(e.Socket.HashCode, out _);
+                connections.TryRemove(e.Socket.Guid, out _);
             }
 
             protected override void OnStart()
@@ -173,7 +173,7 @@ namespace ZyGames.Framework.Remote.Networking
                         if (socketClient == null)
                         {
                             var newClient = new TcpClient();
-                            newClient.IsSynchronizing = false;
+                            newClient.SendOperation = SocketOperation.Synchronization;
                             newClient.Connected += new EventHandler<SocketEventArgs>(SocketClient_Connected);
                             try
                             {

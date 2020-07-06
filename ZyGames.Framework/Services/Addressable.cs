@@ -6,13 +6,13 @@
 
         public abstract Identity Identity { get; internal set; }
 
-        internal protected virtual void Initialize()
+        protected internal virtual void Initialize()
         { }
 
-        internal protected virtual void Start()
+        protected internal virtual void Start()
         { }
 
-        internal protected virtual void Stop()
+        protected internal virtual void Stop()
         { }
     }
 }

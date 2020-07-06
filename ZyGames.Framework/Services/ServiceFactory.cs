@@ -65,18 +65,6 @@ namespace ZyGames.Framework.Services
             return serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, serviceLocator.Address, identity, serviceLocator.Metadata);
         }
 
-        internal SlioAddress GetSlioAddress(Identity identity)
-        {
-            if (addressableDirectory.TryGetAddressable(identity, out IAddressable addressable))
-            {
-                return addressable.Address;
-            }
-
-            var locator = membershipManager.GetServiceLocator(identity);
-            if (locator == null) return null;
-            return locator.Address;
-        }
-
         internal void NewSystemTarget(Type systemTargetType, Type systemTargetInterfaceType)
         {
             var systemTarget = (SystemTarget)Activator.CreateInstance(systemTargetType, true);
@@ -100,6 +88,17 @@ namespace ZyGames.Framework.Services
             if (membershipServiceOptions == null)
                 throw new InvalidOperationException("Gateway service not found.");
 
+            var invokeContextCategory = InvokeContextCategory.Multi;
+            var serviceContract = serviceInterfaceType.GetCustomAttribute<ServiceContractAttribute>(false);
+            if (serviceContract != null)
+            {
+                invokeContextCategory = serviceContract.InvokeContextCategory;
+                if (identity == null && serviceContract.Guid != null)
+                {
+                    identity = new Identity(serviceContract.Guid.Value, Identity.Categories.Service);
+                }
+            }
+
             var service = (Service)Activator.CreateInstance(serviceType);
             service.ServiceFactory = this;
             service.ServiceProvider = serviceProvider;
@@ -107,13 +106,6 @@ namespace ZyGames.Framework.Services
             service.Address = membershipServiceOptions.OutsideAddress;
             service.Metadata = metadata;
             service.Initialize();
-
-            var invokeContextCategory = InvokeContextCategory.Multi;
-            var serviceContract = serviceInterfaceType.GetCustomAttribute<ServiceContractAttribute>(false);
-            if (serviceContract != null)
-            {
-                invokeContextCategory = serviceContract.InvokeContextCategory;
-            }
 
             var serviceTypeData = addressableTypeManager.GetServiceTypeData(serviceInterfaceType);
             var methodInvoker = serviceTypeData.CreateMethodInvoker();
@@ -142,15 +134,12 @@ namespace ZyGames.Framework.Services
         public TSystemTargetInterface GetSystemTarget<TSystemTargetInterface>(Identity identity, SlioAddress destination)
             where TSystemTargetInterface : ISystemTarget
         {
-            if (!addressableDirectory.TryGetAddressable(identity, out IAddressable addressable))
+            return (TSystemTargetInterface)addressableDirectory.GetAddressable(identity, key =>
             {
                 var systemTargetInterfaceType = typeof(TSystemTargetInterface);
                 var systemTargetTypeData = addressableTypeManager.GetSystemTargetTypeData(systemTargetInterfaceType);
-                addressable = systemTargetTypeData.CreateSystemTargetReference(serviceProvider, referenceRuntime, destination, identity);
-                addressableDirectory.Add(addressable);
-            }
-
-            return (TSystemTargetInterface)addressable;
+                return systemTargetTypeData.CreateSystemTargetReference(serviceProvider, referenceRuntime, destination, identity);
+            });
         }
 
         public TServiceInterface NewService<TServiceInterface, TService>(Identity identity = null, object metadata = null)
@@ -174,11 +163,15 @@ namespace ZyGames.Framework.Services
             if (!addressableDirectory.TryGetAddressable(identity, out IAddressable addressable))
             {
                 var locator = membershipManager.GetServiceLocator(identity);
-                if (locator == null) return null;
-
-                var serviceTypeData = addressableTypeManager.GetServiceTypeData(locator.InterfaceType);
-                addressable = serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, locator.Address, locator.Identity, locator.Metadata);
-                addressableDirectory.Add(addressable);
+                if (locator == null)
+                {
+                    return null;
+                }
+                addressable = addressableDirectory.GetAddressable(identity, key =>
+                {
+                    var serviceTypeData = addressableTypeManager.GetServiceTypeData(locator.InterfaceType);
+                    return serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, locator.Address, locator.Identity, locator.Metadata);
+                });
             }
             return (IService)addressable;
         }

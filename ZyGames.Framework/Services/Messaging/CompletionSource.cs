@@ -7,6 +7,7 @@ namespace ZyGames.Framework.Services.Messaging
     {
         private const int NoneSentinel = 0;
         private const int CompletedSentinel = 1;
+
         private readonly ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim();
         private bool isDisposed;
         private volatile int isInCompleted;

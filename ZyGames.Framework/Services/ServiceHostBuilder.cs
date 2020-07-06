@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZyGames.Framework.Injection;
 using ZyGames.Framework.Services.Directory;
 using ZyGames.Framework.Services.Lifecycle;
@@ -47,6 +48,21 @@ namespace ZyGames.Framework.Services
             return this;
         }
 
+        public ServiceHostBuilder AddComponent<TService, TImplementation>()
+            where TService : class
+            where TImplementation : TService
+        {
+            serviceCollection.AddSingleton<TService, TImplementation>();
+            return this;
+        }
+
+        public ServiceHostBuilder AddComponent<TService>(object instance)
+            where TService : class
+        {
+            serviceCollection.AddSingleton<TService>(instance);
+            return this;
+        }
+
         public ServiceHost Build()
         {
             serviceCollection.AddSingleton<IMessageSerializer, MessageSerializer>();
@@ -63,6 +79,10 @@ namespace ZyGames.Framework.Services
             serviceCollection.AddSingleton<IDirectoryLifecycle, DirectoryLifecycle>();
             serviceCollection.AddSingleton<IMembershipLifecycle, MembershipLifecycle>();
             serviceCollection.AddSingleton<ServiceHost>();
+            if (serviceCollection.GetServiceDescriptor<TaskScheduler>() == null)
+            {
+                serviceCollection.AddSingleton<TaskScheduler>(TaskScheduler.Default);
+            }
 
             var serviceProvider = serviceCollection.Build();
             var serviceFactory = serviceProvider.GetRequiredService<ServiceFactory>();

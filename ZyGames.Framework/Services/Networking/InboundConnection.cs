@@ -18,7 +18,7 @@ namespace ZyGames.Framework.Services.Networking
 
         public sealed override bool IsConnected => socket?.Connected == true;
 
-        public Guid Guid => socket.HashCode;
+        public Guid Guid => socket.Guid;
 
         public ExSocket Socket => socket;
 

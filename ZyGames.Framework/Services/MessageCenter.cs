@@ -15,12 +15,13 @@ namespace ZyGames.Framework.Services
     internal class MessageCenter
     {
         private readonly ILogger logger = Logger.GetLogger<MessageCenter>();
-        private readonly ConcurrentDictionary<Guid, CompletionSource<object>> requestContexts = new ConcurrentDictionary<Guid, CompletionSource<object>>();
+        private readonly ConcurrentDictionary<Guid, CompletionSource<object>> contexts = new ConcurrentDictionary<Guid, CompletionSource<object>>();
         private readonly ActivationDirectory activationDirectory;
         private readonly ConnectionManager connectionManager;
         private readonly GatewayMembershipServiceOptions gatewayMembershipServiceOptions;
         private readonly ClusterMembershipServiceOptions clusterMembershipServiceOptions;
         private readonly IServiceHostLifecycle hostingLifecycle;
+        private readonly TaskScheduler taskScheduler;
         private readonly CancellationToken cancellationToken;
 
         public MessageCenter(IServiceProvider serviceProvider)
@@ -30,6 +31,7 @@ namespace ZyGames.Framework.Services
             this.gatewayMembershipServiceOptions = serviceProvider.GetService<GatewayMembershipServiceOptions>();
             this.clusterMembershipServiceOptions = serviceProvider.GetService<ClusterMembershipServiceOptions>();
             this.hostingLifecycle = serviceProvider.GetRequiredService<IServiceHostLifecycle>();
+            this.taskScheduler = serviceProvider.GetRequiredService<TaskScheduler>();
             this.cancellationToken = hostingLifecycle.Token;
         }
 
@@ -44,6 +46,7 @@ namespace ZyGames.Framework.Services
             {
                 case Message.Directions.Request:
                     {
+                        var invokeStart = DateTime.Now;
                         InvokerContext.Caller = activation.Addressable;
 
                         try
@@ -63,12 +66,15 @@ namespace ZyGames.Framework.Services
                         }
                         finally
                         {
+                            var duration = DateTime.Now - invokeStart;
+                            activation.Consuming += duration;
                             InvokerContext.Caller = null;
                         }
                     }
                     break;
                 case Message.Directions.OneWay:
                     {
+                        var invokeStart = DateTime.Now;
                         InvokerContext.Caller = activation.Addressable;
 
                         try
@@ -83,6 +89,8 @@ namespace ZyGames.Framework.Services
                         }
                         finally
                         {
+                            var duration = DateTime.Now - invokeStart;
+                            activation.Consuming += duration;
                             InvokerContext.Caller = null;
                         }
                     }
@@ -97,9 +105,8 @@ namespace ZyGames.Framework.Services
             }
         }
 
-        private void Dispatch(object obj)
+        private void Dispatch(ActivationData activation)
         {
-            ActivationData activation = (ActivationData)obj;
             while (!cancellationToken.IsCancellationRequested && activation.TryDequeueOrReset(out Message message))
             {
                 Execute(activation, message);
@@ -126,20 +133,53 @@ namespace ZyGames.Framework.Services
             switch (target.InvokeContextCategory)
             {
                 case InvokeContextCategory.Multi:
-                    Task.Factory.StartNew(new Action(() =>
+                    new Task(() =>
                     {
                         target.IncrementInFlightCount();
-                        Execute(target, message);
-                        target.DecrementInFlightCount();
-                    }));
+                        try
+                        {
+                            Execute(target, message);
+                        }
+                        catch (Exception ex)
+                        {
+                            var serviceType = target.InterfaceType.FullName;
+                            logger.Error("ReceivedMessage Addressable:{{Type:{0},Identity:{1}}} MultiDispatch exception:{2}", serviceType, target.Identity, ex);
+                        }
+                        finally
+                        {
+                            target.DecrementInFlightCount();
+                        }
+                    }).Start(taskScheduler);
                     break;
                 case InvokeContextCategory.Single:
                     if (target.DirectSendOrEnqueue(message))
                     {
-                        Task.Factory.StartNew(new Action<object>(Dispatch), target);
+                        new Task(() => 
+                        {
+                            target.IncrementInFlightCount();
+                            try
+                            {
+                                Dispatch(target);
+                            }
+                            catch (Exception ex)
+                            {
+                                var serviceType = target.InterfaceType.FullName;
+                                logger.Error("ReceivedMessage Addressable:{{Type:{0},Identity:{1}}} SingleDispatch exception:{2}", serviceType, target.Identity, ex);
+                            }
+                            finally
+                            {
+                                target.DecrementInFlightCount();
+                            }
+                        }).Start(taskScheduler);
                     }
                     break;
             }
+        }
+
+        private bool IsLocalMessage(Message message)
+        {
+            return message.SendingSlio == gatewayMembershipServiceOptions?.OutsideAddress ||
+                message.SendingSlio == clusterMembershipServiceOptions?.OutsideAddress;
         }
 
         private bool TrySendLocal(Message message)
@@ -170,7 +210,7 @@ namespace ZyGames.Framework.Services
             switch (message.Direction)
             {
                 case Message.Directions.Response:
-                    if (requestContexts.TryGetValue(message.Guid, out CompletionSource<object> context))
+                    if (contexts.TryGetValue(message.Guid, out CompletionSource<object> context))
                     {
                         switch (message.Result)
                         {
@@ -209,7 +249,7 @@ namespace ZyGames.Framework.Services
         public object SendRequest(Message message)
         {
             var context = new CompletionSource<object>();
-            requestContexts[message.Guid] = context;
+            contexts[message.Guid] = context;
             try
             {
                 SendMessage(message);
@@ -218,7 +258,7 @@ namespace ZyGames.Framework.Services
             }
             finally
             {
-                requestContexts.TryRemove(message.Guid, out _);
+                contexts.TryRemove(message.Guid, out _);
                 context.Dispose();
             }
         }

@@ -1,0 +1,3396 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Framework</name>
+    </assembly>
+    <members>
+        <member name="T:Framework.Data.AccessLevel">
+            <summary>
+            访问权限级别
+            </summary>
+        </member>
+        <member name="F:Framework.Data.AccessLevel.ReadOnly">
+            <summary>
+            只读的,值=0
+            </summary>
+        </member>
+        <member name="F:Framework.Data.AccessLevel.WriteOnly">
+            <summary>
+            只写,值=1
+            </summary>
+        </member>
+        <member name="F:Framework.Data.AccessLevel.ReadWrite">
+            <summary>
+            读写,值=2
+            </summary>
+        </member>
+        <member name="F:Framework.Data.ColumnModel.ReadOnly">
+            <summary>
+            只读
+            </summary>
+        </member>
+        <member name="F:Framework.Data.ColumnModel.WriteOnly">
+            <summary>
+            只写
+            </summary>
+        </member>
+        <member name="F:Framework.Data.ColumnModel.ReadWrite">
+            <summary>
+            读写
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbCommandMode.Select">
+            <summary>
+            Select
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbCommandMode.Update">
+            <summary>
+            Update
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbCommandMode.Insert">
+            <summary>
+            Insert
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbCommandMode.Delete">
+            <summary>
+            Delete
+            </summary>
+        </member>
+        <member name="T:Framework.Data.Command.IDbCommandStruct">
+            <inheritdoc />
+        </member>
+        <member name="T:Framework.Data.Command.IDbCommandStruct`1">
+            <inheritdoc />
+        </member>
+        <member name="T:Framework.Data.Command.IDbSortClause">
+            <inheritdoc />
+        </member>
+        <member name="T:Framework.Data.DbConnectionCategory">
+            <summary>
+            数据提供者类型
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbConnectionCategory.Unknown">
+            <summary>
+            Unknown
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbConnectionCategory.MsSql">
+            <summary>
+            Ms Sql Server
+            </summary>
+        </member>
+        <member name="F:Framework.Data.DbConnectionCategory.MySql">
+            <summary>
+            My Sql Server
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.Name">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.Table">
+            <summary>
+            所属的表名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.IsPrimary">
+            <summary>
+            是否主键
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.IsNullable">
+            <summary>
+            列允许为空
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.Model">
+            <summary>
+            读写模式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.IsUnique">
+            <summary>
+            是否唯一
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.IsIdentity">
+            <summary>
+            是否自增
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.IdentitySeed">
+            <summary>
+            标识种子
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.Increment">
+            <summary>
+            表示增量
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.DefaultValue">
+            <summary>
+            默认值表达式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.Disable">
+            <summary>
+            禁用或排除数据库取值
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.MaxLength">
+            <summary>
+            最大长度
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.DbType">
+            <summary>
+            Db映射类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityColumnAttribute.ConvertType">
+            <summary>
+            转换器
+            </summary>
+        </member>
+        <member name="M:Framework.Data.EntityConverterSet.TryGetDefaultEntityConverterType(System.Type,System.Type@)">
+            <summary>
+            Try get default entity converter type
+            </summary>
+            <param name="type"></param>
+            <param name="entityConverterType"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:Framework.Data.EntityConverterSet.GetDefaultEntityConverterType(System.Type,System.Boolean)">
+            <summary>
+            Find default entity converter type
+            </summary>
+            <param name="type"></param>
+            <param name="throwOnError"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:Framework.Data.ConverterTypeNotFoundException" />
+        </member>
+        <member name="T:Framework.Data.EntitySchema">
+            <summary>
+            数据库映射视图
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntitySchema.Name">
+            <summary>
+            视图名称
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntitySchema.EntityType">
+            <summary>
+            绑定的实体类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntitySchema.AccessLevel">
+            <summary>
+            访问权限级别
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntitySchema.ConnectKey">
+            <summary>
+            数据库配置连接Key
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntitySchema.SaveUsage">
+            <summary>
+            保存模式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntitySchema.Attributes">
+            <summary>
+            特性
+            </summary>
+        </member>
+        <member name="F:Framework.Data.EntitySchemaAttributes.Conservatism">
+            <summary>
+            保守主义
+            </summary>
+        </member>
+        <member name="F:Framework.Data.EntitySchemaAttributes.Liberalism">
+            <summary>
+            自由主义
+            </summary>
+        </member>
+        <member name="F:Framework.Data.EntitySchemaAttributes.Radicalism">
+            <summary>
+            激进主义
+            </summary>
+        </member>
+        <member name="M:Framework.Data.EntitySchemaManager.LoadAssemblys(System.Reflection.Assembly[])">
+            <summary>
+            加载实体程序集
+            </summary>
+        </member>
+        <member name="M:Framework.Data.EntitySchemaManager.LoadEntity(System.Type)">
+            <summary>
+            初始化架构信息
+            </summary>
+        </member>
+        <member name="M:Framework.Data.EntitySchemaManager.LoadEntity``1">
+            <summary>
+            初始化架构信息
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityTableAttribute.Name">
+            <summary>
+            数据表名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityTableAttribute.ConnectKey">
+            <summary>
+            连接串的 Key
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityTableAttribute.AccessLevel">
+            <summary>
+            访问权限级别
+            <para>默认：<see cref="F:Framework.Data.AccessLevel.ReadWrite"/></para>
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityTableAttribute.SaveUsage">
+            <summary>
+            保存模式
+            <para>默认：<see cref="F:Framework.Data.DataSaveUsage.Procedure"/></para>
+            </summary>
+        </member>
+        <member name="P:Framework.Data.EntityTableAttribute.Attributes">
+            <summary>
+            特性
+            <para>默认：<see cref="F:Framework.Data.EntitySchemaAttributes.Conservatism"/></para>
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.Tables">
+            <summary>
+            表集合
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.Columns">
+            <summary>
+            列集合
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.Name">
+            <summary>
+            视图名称
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.EntityType">
+            <summary>
+            绑定的实体类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.AccessLevel">
+            <summary>
+            访问权限级别
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.ConnectKey">
+            <summary>
+            数据库配置连接Key
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.SaveUsage">
+            <summary>
+            数据交换模式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.IEntitySchema.Attributes">
+            <summary>
+            特性
+            </summary>
+        </member>
+        <member name="T:Framework.Data.IndexCategory">
+            <summary>
+            索引类别
+            </summary>
+        </member>
+        <member name="F:Framework.Data.IndexCategory.Clustered">
+            <summary>
+            聚集索引
+            </summary>
+        </member>
+        <member name="F:Framework.Data.IndexCategory.NonClustered">
+            <summary>
+            非聚集索引
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.Name">
+            <summary>
+            列名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.MaxLength">
+            <summary>
+            最大长度
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.DbType">
+            <summary>
+            Db映射类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.Table">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.PropertyType">
+            <summary>
+            属性类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.DeclaringType">
+            <summary>
+            获取声明该成员的类
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.ReflectedType">
+            <summary>
+            获取用于获取此成员的此实例的类对象
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.CanRead">
+            <summary>
+            是否支持可读
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.CanWrite">
+            <summary>
+            是否支持可写
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.IsNullable">
+            <summary>
+            列允许为空
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.Model">
+            <summary>
+            读写模式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.IsPrimary">
+            <summary>
+            是否主键
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.IsIdentity">
+            <summary>
+            是否自增
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.IdentitySeed">
+            <summary>
+            标识种子
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.Increment">
+            <summary>
+            表示增量
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.DefaultValue">
+            <summary>
+            默认值表达式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaColumn.ConvertType">
+            <summary>
+            实体转换类型
+            </summary>
+        </member>
+        <member name="M:Framework.Data.ISchemaColumn.GetValue(System.Object)">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="M:Framework.Data.ISchemaColumn.SetValue(System.Object,System.Object)">
+            <summary>
+            设置值
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaTable.Columns">
+            <summary>
+            列集合
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaTable.Indices">
+            <summary>
+            索引集合
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaTable.Name">
+            <summary>
+            实体名称
+            </summary>
+        </member>
+        <member name="P:Framework.Data.ISchemaTable.EntityType">
+            <summary>
+            绑定的实体类型
+            </summary>
+        </member>
+        <member name="T:Framework.Data.SchemaColumn">
+            <summary>
+            实体架构的列信息
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.Name">
+            <summary>
+            列名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.MaxLength">
+            <summary>
+            最大长度
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.DbType">
+            <summary>
+            Db映射类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.Table">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.PropertyInfo">
+            <summary>
+            属性信息
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.PropertyType">
+            <summary>
+            属性类型
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.DeclaringType">
+            <summary>
+            获取声明该成员的类
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.ReflectedType">
+            <summary>
+            获取用于获取此成员的此实例的类对象
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.CanRead">
+            <summary>
+            是否支持可读
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.CanWrite">
+            <summary>
+            是否支持可写
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.IsNullable">
+            <summary>
+            列允许为空
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.Model">
+            <summary>
+            读写模式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.IsPrimary">
+            <summary>
+            是否主键
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.IsIdentity">
+            <summary>
+            是否自增
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.IdentitySeed">
+            <summary>
+            标识种子
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.Increment">
+            <summary>
+            表示增量
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.DefaultValue">
+            <summary>
+            默认值表达式
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaColumn.ConvertType">
+            <summary>
+            实体转换类型
+            </summary>
+        </member>
+        <member name="T:Framework.Data.SchemaTable">
+            <summary>
+            数据库映射表
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaTable.Columns">
+            <summary>
+            列集合
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaTable.Indices">
+            <summary>
+            索引集合
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaTable.Name">
+            <summary>
+            实体名称
+            </summary>
+        </member>
+        <member name="P:Framework.Data.SchemaTable.EntityType">
+            <summary>
+            绑定的实体类型
+            </summary>
+        </member>
+        <member name="T:Framework.Diagnostics.StackTrace">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Diagnostics.StackTrace.GetStackFrameString(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Framework.JavaScript.Converters.IJsonConverter">
+            <summary>
+            Json 转换器 接口
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.IJsonConverter.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            把指定类型转换成 Json
+            </summary>
+            <param name="value">欲转换的对象</param>
+            <param name="conversionType">欲转换的类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.IJsonConverter.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            把 Json 转换成指定 类型对象
+            </summary>
+            <param name="value">欲转换的 Json</param>
+            <param name="conversionType">欲转换到的对象类型</param>
+            <returns></returns>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.IJsonDynamicObject">
+            <summary>
+            动态 Json
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.Converters.IJsonDynamicObject.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonArrayConverter`1.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            转换到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonArrayConverter`1.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            转换到对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonCollectionConverter`2.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            转换到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonCollectionConverter`2.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            转换到对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonCollectionConverter`1.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            转换到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonCollectionConverter`1.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            转换到对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.JsonDataConverter`1">
+            <summary>
+            提供通用 类型(包含类) 到 Json 之间的转换
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDataConverter`1.TargetToJson(System.Object)">
+            <summary>
+            对象到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDataConverter`1.JsonToTarget(Framework.JavaScript.Json,System.Object)">
+            <summary>
+            Json 转换到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDataConverter`1.JsonToTarget(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            Json 转换到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDataConverter`1.JsonToTarget``1(Framework.JavaScript.Json)">
+            <summary>
+            Json 转换到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDataConverter`1.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            序列化指定对象
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDataConverter`1.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            反序列化对象
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.JsonDictionaryConverter`2">
+            <summary>
+            提供 Dictionary 到 Json 的转换
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDictionaryConverter`2.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            把指定对象转换到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDictionaryConverter`2.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            把指定 Json 转换到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.JsonDynamicCollectionConverter`1">
+            <summary>
+            JsonListDynamicFormat
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicCollectionConverter`1.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            对象 到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicCollectionConverter`1.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            Json 到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.JsonDynamicCollectionConverter`2">
+            <summary>
+            JsonListDynamicFormat
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicCollectionConverter`2.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            对象 到 Json
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicCollectionConverter`2.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            Json 到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.JsonDynamicDataConverter">
+            <summary>
+            JsonDynamicData
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicDataConverter.TargetToJson(System.Object)">
+            <summary>
+            对象 转换到 Json
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicDataConverter.JsonToTarget(Framework.JavaScript.Json,System.Object)">
+            <summary>
+            Json 转换到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicDataConverter.JsonToTarget(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            Json 转换到 对象
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicDataConverter.ConvertFrom(System.Object,System.Type)">
+            <summary>
+            序列化指定对象
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Converters.JsonDynamicDataConverter.ConvertTo(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            反序列化对象
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <exception cref="!:Framework.Jsons.JsonerializerException"></exception>
+        </member>
+        <member name="T:Framework.JavaScript.Converters.JsonDynamicDataConverter`1">
+            <summary>
+            JsonDynamicData
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.Json">
+            <summary>
+            Json
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.Json.Null">
+            <summary>
+            Json.Null
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Boolean)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Byte)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.SByte)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Int16)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.UInt16)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Int32)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.UInt32)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Int64)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.UInt64)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Single)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Double)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Decimal)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Char)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.String)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Guid)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.TimeSpan)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.DateTime)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Enum)~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Boolean})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Byte})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.SByte})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Int16})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.UInt16})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Int32})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.UInt32})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Int64})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.UInt64})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Single})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Double})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Decimal})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Char})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.Guid})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.TimeSpan})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Nullable{System.DateTime})~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(System.Byte[])~Framework.JavaScript.Json">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Boolean">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Byte">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.SByte">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Int16">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.UInt16">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Int32">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.UInt32">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Int64">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.UInt64">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Single">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Double">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Decimal">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Char">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.String">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Guid">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.TimeSpan">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.DateTime">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Boolean}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Byte}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.SByte}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Int16}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.UInt16}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Int32}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.UInt32}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Int64}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.UInt64}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Single}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Double}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Decimal}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Char}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.Guid}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.TimeSpan}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Implicit(Framework.JavaScript.Json)~System.Nullable{System.DateTime}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.op_Explicit(Framework.JavaScript.Json)~System.Byte[]">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.Json.IsDefined(System.Type)">
+            <summary>
+            返回指定类型是否可与 Json 互为转换
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.IsDefined(System.Object)">
+            <summary>
+            返回指定对象是否可与 Json 互为转换
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Json.ConvertTo(System.Object)">
+            <summary>
+            把未知类型转换成 Json
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.ConvertTo``1(System.Object)">
+            <summary>
+            把未知类型转换成 Json
+            </summary>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.ChangeType(Framework.JavaScript.Json,System.Type)">
+            <summary>
+            把 Json 转换成 指定类型的对象
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.ChangeType``1(Framework.JavaScript.Json)">
+            <summary>
+            把 Json 转换成 指定类型的对象
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse(System.String)">
+            <summary>
+            把 Json 格式的文本转换成 Json
+            </summary>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsoncriptException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse``1(System.String)">
+            <summary>
+            把 Json 格式的文本转换成 Json
+            </summary>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsoncriptException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse(System.Byte[])">
+            <summary>
+            把 Json 格式的字节集转换成 Json
+            </summary>
+            <param name="data"></param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse(System.Byte[],System.Int32)">
+            <summary>
+            把 Json 格式的字节集转换成 Json
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            把 Json 格式的字节集转换成 Json
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse``1(System.Byte[])">
+            <summary>
+            把 Json 格式的字节集转换成 Json
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse``1(System.Byte[],System.Int32)">
+            <summary>
+            把 Json 格式的字节集转换成 Json
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Parse``1(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            把 Json 格式的字节集转换成 Json
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.Json.TryParse(System.String,Framework.JavaScript.Json@)">
+            <summary>
+            将指定样式和区域性特定格式的 Json 的字符串表示形式转换为它的等效 Json。一个指示转换是否成功的返回值。
+            </summary>
+            <param name="text"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Json.TryParse``1(System.String,``0@)">
+            <summary>
+            将指定样式和区域性特定格式的 Json 的字符串表示形式转换为它的等效 Json。一个指示转换是否成功的返回值。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="text"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Json.TryParse(System.Byte[],Framework.JavaScript.Json@)">
+            <summary>
+            将指定样式和区域性特定格式的 Json 的字节集表示形式转换为它的等效 Json。一个指示转换是否成功的返回值。
+            </summary>
+            <param name="bytes"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Json.TryParse``1(System.Byte[],``0@)">
+            <summary>
+            将指定样式和区域性特定格式的 Json 的字节集表示形式转换为它的等效 Json。一个指示转换是否成功的返回值。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.Json.ToBinary">
+            <summary>
+            返回表示当前对象的 字节集
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.Json.Clone">
+            <summary>
+            克隆
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonArray">
+            <summary>
+            JsonArray
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.#ctor">
+            <summary>
+            JsonArray 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.#ctor(System.Int32)">
+            <summary>
+            JsonArray 构造函数
+            </summary>
+            <param name="capacity"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.#ctor(System.Collections.Generic.IEnumerable{Framework.JavaScript.Json})">
+            <summary>
+            JsonArray 构造函数
+            </summary>
+            <param name="collection"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Framework.JavaScript.JsonArray.Item(System.Int32)">
+            <summary>
+            MyJsonList this
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="P:Framework.JavaScript.JsonArray.Count">
+            <summary>
+            实际包含的元素数
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonArray.System#Collections#Generic#ICollection{Framework#JavaScript#Json}#IsReadOnly">
+            <summary>
+            是否为只读
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.AddRange(System.Collections.Generic.IEnumerable{Framework.JavaScript.Json})">
+            <summary>
+            把指定集合添加到列表
+            </summary>
+            <param name="collection"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.ForEach(System.Action{Framework.JavaScript.Json})">
+            <summary>
+            对 JsonArray 的每个元素执行指定操作
+            </summary>
+            <param name="action"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.IndexOf(Framework.JavaScript.Json)">
+            <summary>
+            搜索指定对象，返回第一个从零开始的匹配的索引
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.Insert(System.Int32,Framework.JavaScript.Json)">
+            <summary>
+            把元素插入到指定索引处
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.RemoveAt(System.Int32)">
+            <summary>
+            移除指定索引处的元素
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.Add(Framework.JavaScript.Json)">
+            <summary>
+            把对象添加到列表的结尾
+            </summary>
+            <param name="item"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.Clear">
+            <summary>
+            移除所有元素
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.Contains(Framework.JavaScript.Json)">
+            <summary>
+            确定指定项是否存在
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.CopyTo(Framework.JavaScript.Json[],System.Int32)">
+            <summary>
+            复制从指定索引开始的元素到数组
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.Remove(Framework.JavaScript.Json)">
+            <summary>
+            移除指定项
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.GetEnumerator">
+            <summary>
+            返回循环访问的枚举数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.Clone">
+            <summary>
+            深度克隆
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.ToBinary">
+            <summary>
+            返回表示当前对象的 字节集
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonArray.ToString">
+            <summary>
+            返回表示当前对象的 字符串
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonBinary">
+            <summary>
+            JsonBinary
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.#ctor">
+            <summary>
+            JsonBinary 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.#ctor(System.Int32)">
+            <summary>
+            JsonBinary 构造函数
+            </summary>
+            <param name="capacity"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.#ctor(System.Collections.Generic.IEnumerable{System.Byte})">
+            <summary>
+            JsonBinary 构造函数
+            </summary>
+            <param name="collection"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Framework.JavaScript.JsonBinary.Item(System.Int32)">
+            <summary>
+            要获得或设置从零开始的索引
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Framework.JavaScript.JsonBinary.Count">
+            <summary>
+            返回列表中的元素数
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonBinary.System#Collections#Generic#ICollection{System#Byte}#IsReadOnly">
+            <summary>
+            是否为只读
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.op_Implicit(System.Byte[])~Framework.JavaScript.JsonBinary">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.op_Explicit(Framework.JavaScript.JsonBinary)~System.Byte[]">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.AddRange(System.Byte[])">
+            <summary>
+            把指定集合添加到列表
+            </summary>
+            <param name="array"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.AddRange(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            把指定集合添加到列表
+            </summary>
+            <param name="array"></param>
+            <param name="arrayOffset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.IndexOf(System.Byte)">
+            <summary>
+            返回第一个匹配项从零开始的索引
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.Insert(System.Int32,System.Byte)">
+            <summary>
+            将元素插入到索引位置
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.RemoveAt(System.Int32)">
+            <summary>
+            移除指定索引处的元素
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.Add(System.Byte)">
+            <summary>
+            添加元素到结尾
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.Clear">
+            <summary>
+            清除列表中所有的元素
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.Contains(System.Byte)">
+            <summary>
+            确定某元素是否在列表中
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.CopyTo(System.Byte[],System.Int32)">
+            <summary>
+            将整个列表复制到兼容的一维数组中
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.Remove(System.Byte)">
+            <summary>
+            移除特定对象的第一个匹配项
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.GetEnumerator">
+            <summary>
+            返回循环访问列表的枚举数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.Clone">
+            <summary>
+            深度克隆
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.ToBinary">
+            <summary>
+            返回表示当前对象的 字节集
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonBinary.ToString">
+            <summary>
+            返回表示当前对象的 字符串
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonException">
+            <summary>
+            Json 异常
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonException.#ctor">
+            <summary>
+            Json 异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonException.#ctor(System.String)">
+            <summary>
+            Json 异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonException.#ctor(System.String,System.Exception)">
+            <summary>
+            Json 异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Json 异常 构造函数
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonFormatException">
+            <summary>
+            DataFromat 异常
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonFormatException.#ctor">
+            <summary>
+            DataFromat 异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonFormatException.#ctor(System.String)">
+            <summary>
+            DataFromat 异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonFormatException.#ctor(System.String,System.Exception)">
+            <summary>
+            DataFromat 异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonFormatException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Json 异常 构造函数
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonHelper">
+            <summary>
+            Json Helper
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonHelper.GetJsonMemberAttributes(System.Type,System.Boolean)">
+            <summary>
+            获取指定类型的所有 JsonMemberAttribute 标记成员
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonHelper.GetJsonMemberAttributes(System.Type,System.Reflection.BindingFlags,System.Boolean)">
+            <summary>
+            获取指定类型的所有 JsonMemberAttribute 标记成员
+            </summary>
+            <param name="type"></param>
+            <param name="bindingAttr"></param>
+            <param name="inherit"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonHelper.Transferred(System.String)">
+            <summary>
+            字符串 转义 处理
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonHelper.BsonRecommend(Framework.JavaScript.Json)">
+            <summary>
+            Bson 推荐
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Framework.JavaScript.JsonMemberAttribute">
+            <summary>
+            提供 成员属性到 MyJson 的 特性标注
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonMemberAttribute.Name">
+            <summary>
+            显示名
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonMemberAttribute.ShowIndex">
+            <summary>
+            显示顺序
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonMemberAttribute.ConverterType">
+            <summary>
+            DataFormat 对象 Type
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonMemberAttribute.GetFormatTarget(System.Type)">
+            <summary>
+            获取指定 Type 类型的 IDataFormat 对象
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonMemberAttribute.GetValue(System.Object,System.Boolean)">
+            <summary>
+            获取指定类型的值
+            </summary>
+            <param name="obj">欲获取的对象</param>
+            <param name="checkFormat">是否检测 FormatType</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonMemberAttribute.SetValue(System.Object,Framework.JavaScript.Json,System.Boolean)">
+            <summary>
+            设置指定类型的值
+            </summary>
+            <param name="obj">欲设置的对象</param>
+            <param name="value">欲设置的值</param>
+            <param name="checkFormat">是否检测 FormatType</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="!:Framework.Jsons.JsonFormatException"></exception>
+            <exception cref="!:Framework.Jsons.JsonException"></exception>
+            <returns></returns>
+        </member>
+        <member name="T:Framework.JavaScript.JsonObject">
+            <summary>
+            JsonObject
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.#ctor">
+            <summary>
+            JsonObject 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.#ctor(System.Int32)">
+            <summary>
+            JsonObject 构造函数
+            </summary>
+            <param name="capacity">可包含的初始元素数</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.#ctor(System.Collections.Generic.IDictionary{System.String,Framework.JavaScript.Json})">
+            <summary>
+            JsonObject 构造函数
+            </summary>
+            <param name="dictionary">初始元素</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.#ctor(System.Collections.Generic.KeyValuePair{System.String,Framework.JavaScript.Json}[])">
+            <summary>
+            JsonObject 构造函数
+            </summary>
+            <param name="value"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Framework.JavaScript.Json}})">
+            <summary>
+            JsonObject 构造函数
+            </summary>
+            <param name="value"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Framework.JavaScript.JsonObject.Item(System.String)">
+            <summary>
+            JsonObject this
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Framework.JavaScript.JsonObject.Keys">
+            <summary>
+            键集合
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonObject.Values">
+            <summary>
+            值的集合
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonObject.Count">
+            <summary>
+            包含的键值对数目
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonObject.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,Framework#JavaScript#Json}}#IsReadOnly">
+            <summary>
+            是否为只读
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.AddRange(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Framework.JavaScript.Json}})">
+            <summary>
+            把指定集合添加到集合
+            </summary>
+            <param name="value"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.Add(System.String,Framework.JavaScript.Json)">
+            <summary>
+            将指定的键值添加到字典
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.ContainsKey(System.String)">
+            <summary>
+            确定是否包含指定键
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.Remove(System.String)">
+            <summary>
+            移除指定键的值
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.TryGetValue(System.String,Framework.JavaScript.Json@)">
+            <summary>
+            获取与指定键相关联的值
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.Clear">
+            <summary>
+            移除所有的键和值
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.CopyTo(System.Collections.Generic.KeyValuePair{System.String,Framework.JavaScript.Json}[],System.Int32)">
+            <summary>
+            把指定范围内的数据 Copy 到 array
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.GetEnumerator">
+            <summary>
+            返回循环访问的枚举数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.Clone">
+            <summary>
+            深度克隆
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.ToBinary">
+            <summary>
+            返回表示当前对象的 字节集
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonObject.ToString">
+            <summary>
+            返回表示当前对象的 字符串
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonParser">
+            <summary>
+            Bson 解析类
+            </summary>
+            <summary>
+            Json 文本解释 类
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonParser.Parse(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            把 Bson 形式的 byte[] 转换到 Bson
+            </summary>
+            <param name="data"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsoncriptException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonParser.Parse(System.String)">
+            <summary>
+            解析 Json 文本
+            </summary>
+            <param name="text">欲解析的 Json 文本</param>
+            <returns>返回解析的 Json</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="!:Framework.Jsons.JsoncriptException"></exception>
+        </member>
+        <member name="T:Framework.JavaScript.JsonSerializer">
+            <summary>
+            支持 Json 序列化
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.Serialize(System.Object,System.Boolean)">
+            <summary>
+            序列化
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+            <return>序列化的 Json</return>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.Serialize``1(System.Object,System.Boolean)">
+            <summary>
+            序列化
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.ListSerialize(System.Collections.IList)">
+            <summary>
+            序列化 IList
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.DictionarySerialize(System.Collections.IDictionary)">
+            <summary>
+            序列化 IDictionary
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.DataSerialize(System.Object)">
+            <summary>
+            序列化 类
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.DynamicDataSerialize(Framework.JavaScript.Converters.IJsonDynamicObject)">
+            <summary>
+            序列化 动态类
+            </summary>
+            <param name="obj"></param>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.NoCharacteristicSerialize(System.Object)">
+            <summary>
+            无特性 序列化
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.Deserialize(Framework.JavaScript.Json,System.Object,System.Boolean)">
+            <summary>
+            反序列化
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.Deserialize``1(Framework.JavaScript.Json,System.Object,System.Boolean)">
+            <summary>
+            反序列化
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.Deserialize(Framework.JavaScript.Json,System.Type,System.Boolean)">
+            <summary>
+            反序列化
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.Deserialize``1(Framework.JavaScript.Json,System.Boolean)">
+            <summary>
+            反序列化
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.CollectionDeserialize(Framework.JavaScript.JsonArray,System.Collections.IList)">
+            <summary>
+            反序列化 IList
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.ClassDeserialize(Framework.JavaScript.JsonObject,System.Object)">
+            <summary>
+            反序列化 类
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.DynamicDataDeserialize(Framework.JavaScript.JsonObject,System.Type)">
+            <summary>
+            反序列化 动态类
+            </summary>
+            <exception cref="T:Framework.JavaScript.JsonFormatException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonerializerException"></exception>
+            <exception cref="T:Framework.JavaScript.JsonException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonSerializer.NoCharacteristicDeserialize(Framework.JavaScript.JsonObject,System.Type)">
+            <summary>
+            无特性 反序列化
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonerializerException">
+            <summary>
+            Json 序列化异常
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonerializerException.#ctor">
+            <summary>
+            Json 序列化异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonerializerException.#ctor(System.String)">
+            <summary>
+            Json 序列化异常 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonerializerException.#ctor(System.String,System.Exception)">
+            <summary>
+            Json 序列化异常 构造函数
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="M:Framework.JavaScript.JsonerializerException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Json 异常 构造函数
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.Jsonetting">
+            <summary>
+            Json 设置
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.Jsonetting.DefaultEncoding">
+            <summary>
+            默认编码
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.Jsonetting.Encoding">
+            <summary>
+            Json 编码
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonType">
+            <summary>
+            JsonType
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonType.GetTypeByName(System.String)">
+            <summary>
+            获取指定 Type名称 的 Type
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonType.IsGenericType(System.String)">
+            <summary>
+            当前类型是否是泛型类型
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonType.GetGenericType(System.String)">
+            <summary>
+            获取泛型类型
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonType.GetTypeByName(System.String,System.Type)">
+            <summary>
+            获取指定 Type名称 的 Type
+            </summary>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonType.GetNameByType(System.Type)">
+            <summary>
+            获取指定 Type 的 Name
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Framework.JavaScript.JsonType.TypeDecomposition">
+            <summary>
+            Type 分解
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonType.TypeDecomposition.Decomposition(System.IO.TextReader)">
+            <summary>
+            分解
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonTypeCode">
+            <summary>
+            JsonTypeCode
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Null">
+            <summary>
+            Null
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Boolean">
+            <summary>
+            Boolean
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Byte">
+            <summary>
+            Byte
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.SByte">
+            <summary>
+            SByte
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Char">
+            <summary>
+            Char
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Int16">
+            <summary>
+            Short
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.UInt16">
+            <summary>
+            UShort
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Int32">
+            <summary>
+            Int
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.UInt32">
+            <summary>
+            UInt
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Int64">
+            <summary>
+            Long
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.UInt64">
+            <summary>
+            ULong
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Single">
+            <summary>
+            Float
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Double">
+            <summary>
+            Double
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Decimal">
+            <summary>
+            Decimal
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.String">
+            <summary>
+            String
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Object">
+            <summary>
+            JsonObject
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Array">
+            <summary>
+            JsonArray
+            </summary>
+        </member>
+        <member name="F:Framework.JavaScript.JsonTypeCode.Binary">
+            <summary>
+            JsonBinary
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonUtility">
+            <summary>
+            Json Helper
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonUtility.GetJsonMemberAttributes(System.Type,System.Boolean)">
+            <summary>
+            获取指定类型的所有 JsonMemberAttribute 标记成员
+            </summary>
+            <param name="type"></param>
+            <param name="inherit"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonUtility.GetJsonMemberAttribute(System.Reflection.PropertyInfo,System.Boolean)">
+            <summary>
+            获取指定类型的所有 JsonMemberAttribute 标记成员
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonUtility.Transferred(System.String)">
+            <summary>
+            字符串 转义 处理
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonUtility.IsBsonRecommend(Framework.JavaScript.Json)">
+            <summary>
+            Bson 推荐
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.JavaScript.JsonUtility.GetSerializableProperties(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonUtility.GetUninitializedObject(System.Type)">
+            <inheritdoc />
+        </member>
+        <member name="T:Framework.JavaScript.JsonValue">
+            <summary>
+            JsonValue
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Boolean)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Byte)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.SByte)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Int16)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.UInt16)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Int32)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.UInt32)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Int64)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.UInt64)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Single)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Double)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Decimal)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Char)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.String)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Guid)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.TimeSpan)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.DateTime)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.#ctor(System.Enum)">
+            <summary>
+            JsonValue 构造函数
+            </summary>
+        </member>
+        <member name="P:Framework.JavaScript.JsonValue.Value">
+            <summary>
+            JsonValue 值
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Boolean)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Byte)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.SByte)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Int16)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.UInt16)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Int32)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.UInt32)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Int64)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.UInt64)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Single)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Double)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Decimal)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Char)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.String)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Guid)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.TimeSpan)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.DateTime)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Enum)~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Boolean})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Byte})~Framework.JavaScript.JsonValue">
+            <inheritdoc />>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.SByte})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Int16})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.UInt16})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Int32})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.UInt32})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Int64})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.UInt64})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Single})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Double})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Decimal})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Char})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.Guid})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.TimeSpan})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(System.Nullable{System.DateTime})~Framework.JavaScript.JsonValue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Boolean">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Byte">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.SByte">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Int16">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.UInt16">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Int32">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.UInt32">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Int64">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.UInt64">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Single">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Double">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Decimal">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Char">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.String">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Guid">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.TimeSpan">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.DateTime">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Boolean}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Byte}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.SByte}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Int16}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.UInt16}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Int32}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.UInt32}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Int64}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.UInt64}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Single}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Double}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Decimal}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Char}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.Guid}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.TimeSpan}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.op_Implicit(Framework.JavaScript.JsonValue)~System.Nullable{System.DateTime}">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.Clone">
+            <summary>
+            深度克隆
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.ToBinary">
+            <summary>
+            返回表示当前对象的 字节集
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.ToString">
+            <summary>
+            返回表示当前对象的 字符串
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.GetHashCode">
+            <summary>
+            用作特定类型的哈希函数。
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValue.Equals(System.Object)">
+            <summary>
+            确定指定的 System.Object 是否等于当前的 System.Object。
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.EnumExtension">
+            <summary>
+            Enum 的扩展
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.EnumExtension.ToValue(System.Enum)">
+            <summary>
+            Enum 到 对象
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.EnumExtension.ToEnum(System.Type,System.Object)">
+            <summary>
+            对象到 Enum
+            </summary>
+        </member>
+        <member name="T:Framework.JavaScript.JsonValueExpand">
+            <summary>
+            JsonValue 扩展
+            </summary>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValueExpand.ToJsonValue(System.Enum)">
+            <summary>
+            把枚举转换成 JsonValue
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValueExpand.ToEnum(Framework.JavaScript.JsonValue,System.Type)">
+            <summary>
+            把 JsonValue 转换成指定 枚举 类型
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.JavaScript.JsonValueExpand.ToEnum``1(Framework.JavaScript.JsonValue)">
+            <summary>
+            把 JsonValue 转换成指定 枚举 类型
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Framework.Linq.TypeExtension">
+            <summary>
+            Type 的扩展对象
+            </summary>
+        </member>
+        <member name="M:Framework.Linq.TypeExtension.IsNullable(System.Type)">
+            <summary>
+            是否为封装的可空的值类型
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Framework.Linq.TypeExtension.IsAnonymousType(System.Type)">
+            <summary>
+            是否是匿名类
+            </summary>
+        </member>
+        <member name="T:Framework.Log.ILogger">
+            <summary>
+            ILogger 接口
+            </summary>
+        </member>
+        <member name="P:Framework.Log.ILogger.Name">
+            <summary>
+            获取 Log 名称
+            </summary>
+        </member>
+        <member name="M:Framework.Log.ILogger.IsEnabled(Framework.Log.LogLevel)">
+            <summary>
+            是否可用
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Log.ILogger.Flush">
+            <summary>
+            刷新缓存
+            </summary>
+        </member>
+        <member name="M:Framework.Log.ILogger.Log(Framework.Log.LogLevel,System.String,System.Object[])">
+            <summary>
+            写出 Log
+            </summary>
+            <param name="level">消息等级</param>
+            <param name="format">符合格式字符串</param>
+            <param name="args">一个对象数组，其中包含零个或多个要设置格式的对象。</param>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.Encoding">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.BaseDirectory">
+            <summary>
+            存放Log 的文件夹全名
+            </summary>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.MaximumFileLength">
+            <summary>
+            最大文件大小
+            </summary>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.MaximumCacheMessageCount">
+            <summary>
+            最大缓存数
+            </summary>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.MaximumFileCacheMessageCount">
+            <summary>
+            最文件缓存大缓存数
+            </summary>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.IsAutoFlush">
+            <summary>
+            自动刷新
+            </summary>
+        </member>
+        <member name="P:Framework.Log.LoggerSetting.FlushInterval">
+            <summary>
+            刷新间隔
+            </summary>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Create(System.Type,Framework.Net.Remoting.ClientEndpoint,Framework.Security.IClientCredentials)">
+            <summary>
+            Create dynamic client
+            </summary>
+            <param name="clientType">client interface type</param>
+            <param name="endpoint">server remote endpoint</param>
+            <param name="credentials">credentials</param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Create``1(Framework.Net.Remoting.ClientEndpoint,Framework.Security.IClientCredentials)">
+            <summary>
+            Create dynamic client
+            </summary>
+            <typeparam name="T">client interface type</typeparam>
+            <param name="endpoint">server remote endpoint</param>
+            <param name="credentials">credentials</param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Close(System.Object)">
+            <summary>
+            Close proxy
+            </summary>
+            <param name="proxy">proxy</param>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Open">
+            <summary>
+            Open
+            </summary>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Close">
+            <summary>
+            Close
+            </summary>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Request(System.Reflection.MethodBase,System.Object[])">
+            <summary>
+            Request
+            </summary>
+            <param name="command"></param>
+            <param name="args"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.TimeoutException"></exception>
+            <exception cref="T:Framework.Net.Remoting.RequestException"></exception>
+        </member>
+        <member name="M:Framework.Net.Remoting.ClientBase.Request``1(System.Reflection.MethodBase,System.Object[])">
+            <summary>
+            Request
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="command"></param>
+            <param name="args"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.TimeoutException"></exception>
+            <exception cref="T:Framework.Net.Remoting.RequestException"></exception>
+            <returns></returns>
+        </member>
+        <member name="F:Framework.Net.Remoting.ConcurrencyMode.Single">
+            <summary>
+            服务实例是单线程的，且不接受可重入调用。
+            </summary>
+        </member>
+        <member name="F:Framework.Net.Remoting.ConcurrencyMode.Reentrant">
+            <summary>
+            服务实例是单线程的，且接受可重入调用。
+            </summary>
+        </member>
+        <member name="F:Framework.Net.Remoting.ConcurrencyMode.Multiple">
+            <summary>
+            服务实例是多线程的。无同步保证。
+            </summary>
+        </member>
+        <member name="T:Framework.Net.Sockets.ExSocket">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.WorkSocket">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.LocalEndPoint">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.RemoteEndPoint">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.Connected">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.IsClosed">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.Guid">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.LastAccessTime">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.WaitSendPacketCount">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.ExSocket.UserToken">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.ExSocket.Close">
+            <summary>
+            Close socket
+            </summary>
+        </member>
+        <member name="F:Framework.Net.Sockets.ExtensionSocketError.MessageError">
+            <summary>
+            错误的消息
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.KeepAlive.DueTime">
+            <summary>
+            多长时间没有活跃就开始心跳包
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.KeepAlive.Period">
+            <summary>
+            心跳包间隔
+            </summary>
+        </member>
+        <member name="T:Framework.Net.Sockets.PacketStreamer">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.PacketStreamer.Count">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.PacketStreamer.Enqueue(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.PacketStreamer.Dequeue">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.PacketStreamer.TryDequeue(System.Byte[]@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.PacketStreamer.Clear">
+            <inheritdoc />
+        </member>
+        <member name="T:Framework.Net.Sockets.SocketAsyncResult">
+            <summary>
+            Socket send async result
+            </summary>
+        </member>
+        <member name="T:Framework.Net.Sockets.SocketListener">
+            <summary>
+            Tcp socket Listener
+            </summary>
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.#ctor(System.Net.EndPoint,System.Int32,System.Int32,Framework.Net.Sockets.IPacketProcessor)">
+            <inheritdoc />
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.#ctor(System.Int32,System.Int32,System.Int32,Framework.Net.Sockets.IPacketProcessor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.#ctor(System.Net.EndPoint,System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.#ctor(System.Int32,System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.IsDisposed">
+            <summary>
+            IsDisposed
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.IsActived">
+            <summary>
+            Activated
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.ListenEndPoint">
+            <summary>
+            Listen endpoint
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.Backlog">
+            <summary>
+            Backlog
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.MaxConnections">
+            <summary>
+            Max connection count
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.BufferSize">
+            <summary>
+            <para>buffer size</para>
+            <para>default: <see cref="F:Framework.Net.Sockets.SocketConstants.DefaultBufferSize"/></para>
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.NoDelay">
+            <summary>
+            NoDelay
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.KeepAlive">
+            <summary>
+            KeepAlive
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.SendTimeout">
+            <summary>
+            Send data timeout duration
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.ReceiveTimeout">
+            <summary>
+            Receive data timeout duration
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.SendOperation">
+            <summary>
+            <para>Send operation</para>
+            <para>default: <see cref="F:Framework.Net.Sockets.SocketOperation.Asynchronization"/></para>
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.Statistics">
+            <summary>
+            Statistics counter
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.SocketListener.AvailableIOEventArgsPool">
+            <summary>
+            Available IOEventArgs pool count
+            </summary>
+        </member>
+        <member name="E:Framework.Net.Sockets.SocketListener.Connected">
+            <summary>
+            Connected event
+            </summary>
+        </member>
+        <member name="E:Framework.Net.Sockets.SocketListener.DataReceived">
+            <summary>
+            DataReceived event
+            </summary>
+        </member>
+        <member name="E:Framework.Net.Sockets.SocketListener.Disconnected">
+            <summary>
+            DataReceived event
+            </summary>
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.CheckDisposed">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Start">
+            <summary>
+            Start Listener
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+            <exception cref="T:System.Net.Sockets.SocketException" />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Stop">
+            <summary>
+            Stop Listener
+            </summary>
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Send(Framework.Net.Sockets.ExSocket,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Send data
+            </summary>
+            <param name="socket"></param>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.Net.Sockets.SocketException" />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Send(Framework.Net.Sockets.ExSocket,System.Byte[],System.Int32)">
+            <summary>
+            Send data
+            </summary>
+            <param name="socket"></param>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Send(Framework.Net.Sockets.ExSocket,System.Byte[])">
+            <summary>
+            Send data
+            </summary>
+            <param name="socket"></param>
+            <param name="data"></param>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:Framework.Net.Sockets.SocketListener.Dispose">
+            <summary>
+            Dispose resources
+            </summary>
+        </member>
+        <member name="F:Framework.Net.Sockets.SocketOperation.Synchronization">
+            <summary>
+            同步
+            </summary>
+        </member>
+        <member name="F:Framework.Net.Sockets.SocketOperation.Asynchronization">
+            <summary>
+            异步
+            </summary>
+        </member>
+        <member name="T:Framework.Net.Sockets.TcpClient">
+            <summary>
+            Async tcp client
+            </summary>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.#ctor(Framework.Net.Sockets.IPacketProcessor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.IsActivated">
+            <summary>
+            IsActivated
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.IsConnected">
+            <summary>
+            IsConnected
+            </summary>
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.IsBlocking">
+            <summary>
+            <para>IsBlocking</para>
+            <para>default: true</para>
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.LocalEndPoint">
+            <summary>
+            Local endpoint
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.RemoteEndPoint">
+            <summary>
+            Remote endpoint
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.BufferSize">
+            <summary>
+            <para>Buffer size</para>
+            <para>default: <see cref="F:Framework.Net.Sockets.SocketConstants.DefaultBufferSize"/></para>
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.NoDelay">
+            <summary>
+            <para>NoDelay</para>
+            <para>default: false</para>
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.KeepAlive">
+            <summary>
+            <para>KeepAlive</para>
+            <para>default: off</para>
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.ConnectTimeout">
+            <summary>
+            <para>Connect timeout</para>
+            <para>default: <see cref="F:System.TimeSpan.Zero"/></para>
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.SendTimeout">
+            <summary>
+            <para>Send timeout</para>
+            <para>default: <see cref="F:System.TimeSpan.Zero"/></para>
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.ReceiveTimeout">
+            <summary>
+            <para>Receive timeout</para>
+            <para>default: <see cref="F:System.TimeSpan.Zero"/></para>
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.SendOperation">
+            <summary>
+            <para>Send operation</para>
+            <para>default: <see cref="F:Framework.Net.Sockets.SocketOperation.Asynchronization"/></para>
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="P:Framework.Net.Sockets.TcpClient.ReceiveOperation">
+            <summary>
+            <para>Receive operation</para>
+            <para>default: <see cref="F:Framework.Net.Sockets.SocketOperation.Asynchronization"/></para>
+            </summary>
+            <exception cref="T:System.InvalidOperationException" />
+            <exception cref="T:System.ObjectDisposedException" />
+        </member>
+        <member name="E:Framework.Net.Sockets.TcpClient.Connected">
+            <summary>
+            Connected event
+            </summary>
+        </member>
+        <member name="E:Framework.Net.Sockets.TcpClient.Disconnected">
+            <summary>
+            Disconnected event
+            </summary>
+        </member>
+        <member name="E:Framework.Net.Sockets.TcpClient.DataReceived">
+            <summary>
+            DataReceived event
+            </summary>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Connect(System.Net.EndPoint)">
+            <summary>
+            Connect
+            </summary>
+            <exception cref="T:System.Net.Sockets.SocketException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.ConnectAsync(System.Net.EndPoint)">
+            <summary>
+            Async connect
+            </summary>
+            <exception cref="T:System.Net.Sockets.SocketException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Close">
+            <summary>
+            Close connection
+            </summary>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Send
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+            <exception cref="T:System.Net.Sockets.SocketException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Send(System.Byte[],System.Int32)">
+            <summary>
+            Send
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Send(System.Byte[])">
+            <summary>
+            Send
+            </summary>
+            <param name="data"></param>
+            <exception cref="T:System.Net.Sockets.SocketException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Receive">
+            <summary>
+            Receive
+            </summary>
+            <exception cref="T:System.Net.Sockets.SocketException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Net.Sockets.TcpClient.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.NormalClosure">
+            <summary>
+            1000
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.GoingAway">
+            <summary>
+            1001
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.ProtocolError">
+            <summary>
+            1002
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.UnexpectedCondition">
+            <summary>
+            1003
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.Reserved">
+            <summary>
+            1004
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.NoStatusRcvd">
+            <summary>
+            1005
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.AbnormalClosure">
+            <summary>
+            1006
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.InvalidUTF8">
+            <summary>
+            1007
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.PolicyViolation">
+            <summary>
+            1008
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.MessageTooBig">
+            <summary>
+            1009
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.CloseStatusCode.MandatoryExt">
+            <summary>
+            1010
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.CheckRSV">
+            <summary>
+            RSV is 0
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.FIN">
+            <summary>
+            Is Finsh
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.RSV1">
+            <summary>
+            custom protocol
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.RSV2">
+            <summary>
+            custom protocol
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.RSV3">
+            <summary>
+            custom protocol
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.OpCode">
+            <summary>
+            op code:
+            0: continue
+            1: text message
+            2: bir message
+            3-7: no use
+            8: close connect
+            9: ping message
+            A: pong message
+            B-F: no use
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.HasMask">
+            <summary>
+            has mask
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.MessageHeadFrame.PayloadLenght">
+            <summary>
+            message length
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.Rfc6455CloseStatusCode.InternalServerError">
+            <summary>
+            1011 RFC-6455
+            </summary>
+        </member>
+        <member name="P:Framework.Net.WebSockets.Rfc6455CloseStatusCode.TLSHandshake">
+            <summary>
+            1015 RFC-6455
+            </summary>
+        </member>
+        <member name="P:Framework.PropertyAttribute.PropertyInfo">
+            <summary>
+            属性信息
+            </summary>
+        </member>
+        <member name="P:Framework.PropertyAttribute.PropertyType">
+            <summary>
+            获取成员返回类型
+            </summary>
+        </member>
+        <member name="P:Framework.PropertyAttribute.DeclaringType">
+            <summary>
+            获取声明该成员的类
+            </summary>
+        </member>
+        <member name="P:Framework.PropertyAttribute.ReflectedType">
+            <summary>
+            获取用于获取此成员的此实例的类对象
+            </summary>
+        </member>
+        <member name="P:Framework.PropertyAttribute.CanRead">
+            <summary>
+            是否支持可读
+            </summary>
+        </member>
+        <member name="P:Framework.PropertyAttribute.CanWrite">
+            <summary>
+            是否支持可写
+            </summary>
+        </member>
+        <member name="T:Framework.Reflection.FastInvokeHandler">
+            <summary>
+            快速执行方法委托
+            </summary>
+        </member>
+        <member name="T:Framework.Reflection.FastInvokeMethod">
+            <summary>
+            快速执行方法类
+            </summary>
+        </member>
+        <member name="P:Framework.Reflection.FastInvokeMethod.ReturnType">
+            <summary>
+            获取此方法的返回类型。
+            </summary>
+        </member>
+        <member name="P:Framework.Reflection.FastInvokeMethod.DeclaringType">
+            <summary>
+            获取声明该成员的类。
+            </summary>
+        </member>
+        <member name="P:Framework.Reflection.FastInvokeMethod.ReflectedType">
+            <summary>
+            获取用于获取 MemberInfo 的此实例的类对象。
+            </summary>
+        </member>
+        <member name="M:Framework.Reflection.FastInvokeMethod.GetParameters">
+            <summary>
+            获取指定的方法或构造函数的参数。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Framework.Reflection.ILMethodFactory">
+            <summary>
+            快速执行方法工厂
+            </summary>
+        </member>
+        <member name="M:Framework.Reflection.ILMethodFactory.CreateMethodHandler(System.Reflection.MethodInfo)">
+            <summary>
+            创建 方法调用 委托
+            </summary>
+        </member>
+        <member name="M:Framework.Reflection.ILMethodFactory.TryGetOrCreate(System.Type,System.String,Framework.Reflection.FastInvokeMethod[]@)">
+            <summary>
+            获取或创建指定类型的指定名称的方法动态委托
+            </summary>
+        </member>
+        <member name="M:Framework.Reflection.ILMethodFactory.TryGetOrCreate``1(System.String,Framework.Reflection.FastInvokeMethod[]@)">
+            <summary>
+            获取或创建指定类型的指定名称的方法动态委托
+            </summary>
+        </member>
+        <member name="T:Framework.Statistics.SocketListenerStatistics">
+            <summary>
+            SocketListener statistics
+            </summary>
+        </member>
+        <member name="P:Framework.Statistics.SocketListenerStatistics.InboundConnectionCount">
+            <summary>
+            Inbound connection count
+            </summary>
+        </member>
+        <member name="P:Framework.Statistics.SocketListenerStatistics.CurrentConnectionCount">
+            <summary>
+            Current connection count
+            </summary>
+        </member>
+        <member name="P:Framework.Statistics.SocketListenerStatistics.RejectedConnectionCount">
+            <summary>
+            Rejected connection count
+            </summary>
+        </member>
+        <member name="P:Framework.Statistics.SocketListenerStatistics.ClosedConnectionCount">
+            <summary>
+            Closed connection count
+            </summary>
+        </member>
+        <member name="P:Framework.Statistics.SocketListenerStatistics.SendConcurrencyCount">
+            <summary>
+            Send concurrency count
+            </summary>
+        </member>
+        <member name="P:Framework.Statistics.SocketListenerStatistics.ReceiveConcurrencyCount">
+            <summary>
+            Receive concurrency count
+            </summary>
+        </member>
+        <member name="P:Framework.TypeAttribute.ReflectedType">
+            <summary>
+            获取用于获取该成员的类对象的类型。
+            </summary>
+        </member>
+        <member name="P:Framework.TypeAttribute.DeclaringType">
+            <summary>
+            获取用来声明当前类型参数的类型。
+            </summary>
+        </member>
+        <member name="T:Framework.Utility.GZipHelper">
+            <summary>
+            数据压缩类,数据长度大于50000，压缩才有意义
+            </summary>
+        </member>
+        <member name="M:Framework.Utility.GZipHelper.EnCompress(System.IO.Stream)">
+            <summary>
+            压缩流数据
+            </summary>
+            <param name="aSourceStream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Utility.GZipHelper.EnCompress(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            压缩数据
+            </summary>
+            <param name="aSourceStream"></param>
+            <param name="index"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Utility.GZipHelper.EnCompress(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            压缩
+            </summary>
+            <param name="oldStream">源流</param>
+            <param name="newStream">压缩流</param>
+        </member>
+        <member name="M:Framework.Utility.GZipHelper.DeCompress(System.IO.Stream)">
+            <summary>
+            解压数据
+            </summary>
+            <param name="aSourceStream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Utility.GZipHelper.DeCompress(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            解压数据
+            </summary>
+            <param name="aSourceByte"></param>
+            <param name="index"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Framework.Utility.GZipHelper.DeCompress(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            解压
+            </summary>
+            <param name="oldStream">压缩流</param>
+            <param name="newStream">解压流</param>
+        </member>
+    </members>
+</doc>

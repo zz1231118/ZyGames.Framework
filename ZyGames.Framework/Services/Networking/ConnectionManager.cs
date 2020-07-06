@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using ZyGames.Framework.Services.Networking;
 
 namespace ZyGames.Framework.Services
@@ -23,40 +24,28 @@ namespace ZyGames.Framework.Services
         public void Connected(SlioAddress address, Connection connection)
         {
             var connectionEntry = GetConnectionEntry(address);
-            if (connectionEntry.Connection == null)
+            lock (connectionEntry)
             {
-                lock (connectionEntry)
-                {
-                    if (connectionEntry.Connection == null)
-                    {
-                        connectionEntry.Connection = connection;
-                    }
-                }
+                connectionEntry.Connections.Add(connection);
             }
         }
 
         public void ConnectionTerminated(SlioAddress address, Connection connection)
         {
             var connectionEntry = GetConnectionEntry(address);
-            if (connectionEntry.Connection == connection)
+            lock (connectionEntry)
             {
-                lock (connectionEntry)
-                {
-                    if (connectionEntry.Connection == connection)
-                    {
-                        connectionEntry.Connection = null;
-                    }
-                }
+                connectionEntry.Connections.Remove(connection);
             }
         }
 
         public Connection GetConnection(SlioAddress endpoint)
         {
             var connectionEntry = GetConnectionEntry(endpoint);
-            var connection = connectionEntry.Connection;
-            if (connection == null || !connection.IsConnected)
+            lock (connectionEntry)
             {
-                lock (connectionEntry)
+                var connection = connectionEntry.GetConnection();
+                if (connection == null || !connection.IsConnected)
                 {
                     if (connection != null && !connection.IsConnected)
                     {
@@ -76,18 +65,21 @@ namespace ZyGames.Framework.Services
                             throw;
                         }
 
-                        connectionEntry.Connection = newConnection;
+                        connection = newConnection;
+                        connectionEntry.Connections.Add(newConnection);
                     }
-
-                    connection = connectionEntry.Connection;
                 }
+                return connection;
             }
-            return connection;
         }
 
         class ConnectionEntry
         {
             private readonly SlioAddress endpoint;
+            private readonly List<Connection> connections = new List<Connection>();
+
+            [ThreadStatic]
+            public int nextConnection;
 
             public ConnectionEntry(SlioAddress endpoint)
             {
@@ -96,7 +88,18 @@ namespace ZyGames.Framework.Services
 
             public SlioAddress Endpoint => endpoint;
 
-            public Connection Connection { get; set; }
+            public List<Connection> Connections => connections;
+
+            public Connection GetConnection()
+            {
+                if (connections.Count == 0)
+                {
+                    return null;
+                }
+
+                nextConnection = (nextConnection + 1) % connections.Count;
+                return connections[nextConnection];
+            }
         }
     }
 }

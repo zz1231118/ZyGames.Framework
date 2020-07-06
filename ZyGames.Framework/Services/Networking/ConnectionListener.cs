@@ -74,7 +74,7 @@ namespace ZyGames.Framework.Services.Networking
         public void SendMessage(InboundConnection connection, Message message)
         {
             var bytes = messageSerializer.Serialize(message);
-            socketListener.PostSend(connection.Socket, bytes, 0, bytes.Length);
+            socketListener.Send(connection.Socket, bytes, 0, bytes.Length);
         }
     }
 }

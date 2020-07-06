@@ -40,6 +40,8 @@ namespace ZyGames.Framework.Services.Directory
 
         public Mailbox Mailbox => mailbox;
 
+        public TimeSpan Consuming { get; set; }
+
         public int InFlightCount => inFlightCount;
 
         public string GetMethodName(Message message, bool throwOnError)

@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ZyGames.Framework.Injection;
+using Framework.Injection;
 using ZyGames.Framework.Services.Directory;
 using ZyGames.Framework.Services.Lifecycle;
 using ZyGames.Framework.Services.Membership;
 using ZyGames.Framework.Services.Messaging;
+using ZyGames.Framework.Services.Networking;
+using ZyGames.Framework.Services.Options;
 using ZyGames.Framework.Services.Runtime;
 
 namespace ZyGames.Framework.Services
 {
     public class ServiceHostBuilder
     {
-        private readonly ServiceCollection serviceCollection = new ServiceCollection();
+        private readonly ContainerBuilder builder = new ContainerBuilder();
         private readonly List<ServiceDescriptor> serviceDescriptors = new List<ServiceDescriptor>();
         private readonly List<SystemTargetDescriptor> systemTargetDescriptors = new List<SystemTargetDescriptor>();
 
-        public ServiceHostBuilder ConfigureOptions<T>(Action<T> action = null)
+        public ServiceHostBuilder ConfigureOptions<T>(Action<T> initializer = null)
         {
-            var option = Activator.CreateInstance<T>();
-            action?.Invoke(option);
-            serviceCollection.AddSingleton(option);
+            var options = Activator.CreateInstance<T>();
+            initializer?.Invoke(options);
+            builder.AddSingleton(options);
             return this;
         }
 
@@ -29,9 +31,40 @@ namespace ZyGames.Framework.Services
             where TSystemTarget : SystemTarget, ISystemTargetInterface
         {
             var descriptor = new SystemTargetDescriptor();
-            descriptor.SystemTargetInterfaceType = typeof(ISystemTargetInterface);
-            descriptor.SystemTargetType = typeof(TSystemTarget);
+            descriptor.InterfaceType = typeof(ISystemTargetInterface);
+            descriptor.ImplementationType = typeof(TSystemTarget);
             systemTargetDescriptors.Add(descriptor);
+            return this;
+        }
+
+        public ServiceHostBuilder AddSystemTarget<ISystemTargetInterface, TSystemTarget, TOptions>(Action<TOptions> initializer = null)
+            where ISystemTargetInterface : ISystemTarget
+            where TSystemTarget : SystemTarget, ISystemTargetInterface, IOptions<TOptions>
+        {
+            var descriptor = new SystemTargetDescriptor();
+            descriptor.InterfaceType = typeof(ISystemTargetInterface);
+            descriptor.ImplementationType = typeof(TSystemTarget);
+            systemTargetDescriptors.Add(descriptor);
+
+            var options = Activator.CreateInstance<TOptions>();
+            initializer?.Invoke(options);
+            builder.AddSingleton(options);
+            return this;
+        }
+
+        public ServiceHostBuilder AddSystemTarget<ISystemTargetInterface, TSystemTarget, TOptions>(TOptions options)
+            where ISystemTargetInterface : ISystemTarget
+            where TSystemTarget : SystemTarget, ISystemTargetInterface, IOptions<TOptions>
+        {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            var descriptor = new SystemTargetDescriptor();
+            descriptor.InterfaceType = typeof(ISystemTargetInterface);
+            descriptor.ImplementationType = typeof(TSystemTarget);
+            systemTargetDescriptors.Add(descriptor);
+
+            builder.AddSingleton(options);
             return this;
         }
 
@@ -40,8 +73,8 @@ namespace ZyGames.Framework.Services
             where TService : Service, TServiceInterface
         {
             var descriptor = new ServiceDescriptor();
-            descriptor.ServiceInterfaceType = typeof(TServiceInterface);
-            descriptor.ServiceType = typeof(TService);
+            descriptor.InterfaceType = typeof(TServiceInterface);
+            descriptor.ImplementationType = typeof(TService);
             descriptor.Identity = identity;
             descriptor.Metadata = metadata;
             serviceDescriptors.Add(descriptor);
@@ -52,63 +85,85 @@ namespace ZyGames.Framework.Services
             where TService : class
             where TImplementation : TService
         {
-            serviceCollection.AddSingleton<TService, TImplementation>();
+            builder.AddSingleton<TService, TImplementation>();
+            return this;
+        }
+
+        public ServiceHostBuilder AddComponent<TService, TImplementation>(Action<TImplementation> initializer)
+            where TService : class
+            where TImplementation : TService
+        {
+            if (initializer == null)
+                throw new ArgumentNullException(nameof(initializer));
+
+            var component = Activator.CreateInstance<TImplementation>();
+            initializer(component);
+            builder.AddSingleton<TService>(component);
             return this;
         }
 
         public ServiceHostBuilder AddComponent<TService>(object instance)
             where TService : class
         {
-            serviceCollection.AddSingleton<TService>(instance);
+            builder.AddSingleton<TService>(instance);
+            return this;
+        }
+
+        public ServiceHostBuilder AddComponent<TService>(Func<IContainer, TService> factory)
+            where TService : class
+        {
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            builder.AddSingleton<TService>(factory);
             return this;
         }
 
         public ServiceHost Build()
         {
-            serviceCollection.AddSingleton<IMessageSerializer, MessageSerializer>();
-            serviceCollection.AddSingleton<MessageCenter>();
-            serviceCollection.AddSingleton<AddressableDirectory>();
-            serviceCollection.AddSingleton<ActivationDirectory>();
-            serviceCollection.AddSingleton<AddressableTypeManager>();
-            serviceCollection.AddSingleton<ServiceFactory>();
-            serviceCollection.AddSingleton<ReferenceRuntime>();
-            serviceCollection.AddSingleton<ConnectionManager>();
-            serviceCollection.AddSingleton<MembershipManager>();
-            serviceCollection.AddSingleton<BinarySerializer>();
-            serviceCollection.AddSingleton<IServiceHostLifecycle, ServiceHostLifecycle>();
-            serviceCollection.AddSingleton<IDirectoryLifecycle, DirectoryLifecycle>();
-            serviceCollection.AddSingleton<IMembershipLifecycle, MembershipLifecycle>();
-            serviceCollection.AddSingleton<ServiceHost>();
-            if (serviceCollection.GetServiceDescriptor<TaskScheduler>() == null)
+            builder.AddSingleton<IMessageSerializer, MessageProtobufSerializer>();
+            builder.AddSingleton<MessageCenter>();
+            builder.AddSingleton<AddressableDirectory>();
+            builder.AddSingleton<ActivationDirectory>();
+            builder.AddSingleton<AddressableTypeManager>();
+            builder.AddSingleton<IServiceFactory>(p =>
             {
-                serviceCollection.AddSingleton<TaskScheduler>(TaskScheduler.Default);
-            }
-
-            var serviceProvider = serviceCollection.Build();
-            var serviceFactory = serviceProvider.GetRequiredService<ServiceFactory>();
-            foreach (var descriptor in systemTargetDescriptors)
-            {
-                serviceFactory.NewSystemTarget(descriptor.SystemTargetType, descriptor.SystemTargetInterfaceType);
-            }
-            foreach (var descriptor in serviceDescriptors)
-            {
-                serviceFactory.NewService(descriptor.ServiceType, descriptor.ServiceInterfaceType, descriptor.Identity, descriptor.Metadata);
-            }
-
-            return serviceProvider.GetRequiredService<ServiceHost>();
+                var serviceFactory = new ServiceFactory(p);
+                foreach (var descriptor in systemTargetDescriptors)
+                {
+                    serviceFactory.NewSystemTarget(descriptor.ImplementationType, descriptor.InterfaceType);
+                }
+                foreach (var descriptor in serviceDescriptors)
+                {
+                    serviceFactory.NewService(descriptor.ImplementationType, descriptor.InterfaceType, descriptor.Identity, descriptor.Metadata);
+                }
+                return serviceFactory;
+            });
+            builder.AddSingleton<ReferenceRuntime>();
+            builder.AddSingleton<MembershipManager>();
+            builder.AddSingleton<BinarySerializer>();
+            builder.AddSingleton<IConnectionManager, ConnectionManager2>();
+            builder.AddSingleton<IServiceHostLifecycle, ServiceHostLifecycle>();
+            builder.AddSingleton<IDirectoryLifecycle, DirectoryLifecycle>();
+            builder.AddSingleton<IMembershipLifecycle, MembershipLifecycle>();
+            builder.AddSingleton<ServiceHost>();
+            builder.TryAddSingleton<TaskScheduler>(TaskScheduler.Default);
+            builder.EnableAutowired();
+            var container = builder.Build();
+            return container.Required<ServiceHost>();
         }
 
-        class ServiceDescriptor
+        abstract class AddressableDescriptor
         {
-            public Type ServiceInterfaceType;
-            public Type ServiceType;
+            public Type InterfaceType;
+            public Type ImplementationType;
+        }
+
+        sealed class SystemTargetDescriptor : AddressableDescriptor
+        { }
+
+        sealed class ServiceDescriptor : AddressableDescriptor
+        {
             public Identity Identity;
             public object Metadata;
-        }
-        class SystemTargetDescriptor
-        {
-            public Type SystemTargetInterfaceType;
-            public Type SystemTargetType;
         }
     }
 }

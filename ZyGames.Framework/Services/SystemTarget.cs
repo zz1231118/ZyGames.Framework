@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Framework.Injection;
 
 namespace ZyGames.Framework.Services
 {
@@ -7,19 +7,17 @@ namespace ZyGames.Framework.Services
         internal SystemTarget()
         { }
 
-        internal SystemTarget(SlioAddress address, Identity identity)
+        internal SystemTarget(Address address, Identity identity)
         {
             Address = address;
             Identity = identity;
         }
 
-        internal abstract Priority Priority { get; }
+        public IContainer Container { get; internal set; }
 
         public ISystemServiceFactory ServiceFactory { get; internal set; }
 
-        public IServiceProvider ServiceProvider { get; internal set; }
-
-        public sealed override SlioAddress Address { get; internal set; }
+        public sealed override Address Address { get; internal set; }
 
         public sealed override Identity Identity { get; internal set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Framework.Injection;
 using Framework.Net.Sockets;
 using ZyGames.Framework.Services.Messaging;
 
@@ -9,8 +10,8 @@ namespace ZyGames.Framework.Services.Networking
         private readonly ConnectionListener connectionListener;
         private readonly ExSocket socket;
 
-        public InboundConnection(IServiceProvider serviceProvider, ConnectionListener connectionListener, ExSocket socket)
-            : base(serviceProvider)
+        public InboundConnection(IContainer container, ConnectionListener connectionListener, ExSocket socket)
+            : base(container)
         {
             this.connectionListener = connectionListener;
             this.socket = socket;

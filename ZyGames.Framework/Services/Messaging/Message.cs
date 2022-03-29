@@ -5,13 +5,13 @@ namespace ZyGames.Framework.Services.Messaging
     [Serializable]
     public class Message
     {
-        public Guid Guid { get; internal set; }
+        public Guid Id { get; internal set; }
 
-        public SlioAddress SendingSlio { get; internal set; }
+        public Address SendingSilo { get; internal set; }
 
         public Identity SendingId { get; internal set; }
 
-        public SlioAddress TargetSlio { get; internal set; }
+        public Address TargetSilo { get; internal set; }
 
         public Identity TargetId { get; internal set; }
 
@@ -21,43 +21,43 @@ namespace ZyGames.Framework.Services.Messaging
 
         public RejectionTypes RejectionType { get; internal set; }
 
-        public object BodyObject { get; internal set; }
+        public object Body { get; internal set; }
 
         public Message CreateResponseMessage(object obj)
         {
             var message = new Message();
-            message.Guid = Guid;
-            message.TargetSlio = SendingSlio;
+            message.Id = Id;
+            message.TargetSilo = SendingSilo;
             message.TargetId = SendingId;
-            message.SendingSlio = TargetSlio;
+            message.SendingSilo = TargetSilo;
             message.SendingId = TargetId;
             message.Direction = Directions.Response;
             message.Result = ResponseTypes.Success;
-            message.BodyObject = obj;
+            message.Body = obj;
             return message;
         }
 
         public Message CreateErrorMessage(Exception exception)
         {
             var message = new Message();
-            message.Guid = Guid;
-            message.TargetSlio = SendingSlio;
+            message.Id = Id;
+            message.TargetSilo = SendingSilo;
             message.TargetId = SendingId;
-            message.SendingSlio = TargetSlio;
+            message.SendingSilo = TargetSilo;
             message.SendingId = TargetId;
             message.Direction = Directions.Response;
             message.Result = ResponseTypes.Error;
-            message.BodyObject = exception;
+            message.Body = exception;
             return message;
         }
 
         public Message CreateRejectionMessage(RejectionTypes rejectionType)
         {
             var message = new Message();
-            message.Guid = Guid;
-            message.TargetSlio = SendingSlio;
+            message.Id = Id;
+            message.TargetSilo = SendingSilo;
             message.TargetId = SendingId;
-            message.SendingSlio = TargetSlio;
+            message.SendingSilo = TargetSilo;
             message.SendingId = TargetId;
             message.Direction = Directions.Response;
             message.Result = ResponseTypes.Rejection;

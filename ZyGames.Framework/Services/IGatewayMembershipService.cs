@@ -2,6 +2,7 @@
 
 namespace ZyGames.Framework.Services
 {
+    [SystemTargetContract(Priority.System)]
     public interface IGatewayMembershipService : ISystemTarget
     {
         [OperationContract(InvokeMethodOptions.OneWay)]

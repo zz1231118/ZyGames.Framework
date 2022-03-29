@@ -1,5 +1,4 @@
-﻿using System;
-using ZyGames.Framework.Injection;
+﻿using Framework.Injection;
 using ZyGames.Framework.Services.Membership;
 
 namespace ZyGames.Framework.Services.Runtime
@@ -9,10 +8,10 @@ namespace ZyGames.Framework.Services.Runtime
         private readonly MembershipManager membershipManager;
         private readonly object metadata;
 
-        protected ServiceReference(IServiceProvider serviceProvider, IReferenceRuntime runtime, SlioAddress address, Identity identity, object metadata)
-            : base(serviceProvider, runtime, address, identity)
+        protected ServiceReference(IContainer container, IReferenceRuntime runtime, Address address, Identity identity, object metadata)
+            : base(runtime, address, identity)
         {
-            this.membershipManager = serviceProvider.GetRequiredService<MembershipManager>();
+            this.membershipManager = container.Required<MembershipManager>();
             this.metadata = metadata;
         }
 
@@ -20,9 +19,16 @@ namespace ZyGames.Framework.Services.Runtime
 
         public object Metadata => metadata;
 
-        public T GetMetadata<T>()
+        public T GetMeta<T>()
+            where T : class
         {
-            return (T)metadata;
+            return metadata as T;
+        }
+
+        public T GetMetadata<T>()
+            where T : class
+        {
+            return metadata as T;
         }
     }
 }

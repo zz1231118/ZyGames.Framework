@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
+using Framework.Injection;
 using Framework.Log;
-using ZyGames.Framework.Injection;
 using ZyGames.Framework.Services.Directory;
 using ZyGames.Framework.Services.Lifecycle;
 using ZyGames.Framework.Services.Membership;
@@ -11,7 +11,7 @@ using ZyGames.Framework.Services.Runtime;
 
 namespace ZyGames.Framework.Services
 {
-    public sealed class GatewayMembershipService : SystemTarget, IGatewayMembershipService, ILifecycleObserver
+    public sealed class GatewayMembershipService : SystemTarget, IGatewayMembershipService, ILifecycleObserver, IOptions<GatewayMembershipServiceOptions>
     {
         private readonly ILogger logger = Logger.GetLogger<GatewayMembershipService>();
         private GatewayMembershipServiceOptions membershipServiceOptions;
@@ -27,8 +27,6 @@ namespace ZyGames.Framework.Services
 
         internal GatewayMembershipService()
         { }
-
-        internal override Priority Priority => Priority.System;
 
         private MembershipTable CreateMembershipTable()
         {
@@ -48,7 +46,7 @@ namespace ZyGames.Framework.Services
                     membershipManager.UpdateFromSnapshot(membershipSnapshot);
                     if (hostingLifecycle.Status <= ServiceHostStatus.Joining)
                     {
-                        hostingLifecycle.NotifyObserver(Lifecycles.State.ServiceHost.Started);
+                        hostingLifecycle.Notify(Lifecycles.State.ServiceHost.Started);
                     }
 
                     isAlived = true;
@@ -57,7 +55,7 @@ namespace ZyGames.Framework.Services
             catch (Exception ex)
             {
                 isAlived = false;
-                //applicationLifecycle.NotifyObserver(ApplicationLifecycle.Starting);
+                //hostingLifecycle.Notify(Lifecycles.State.ServiceHost.Starting);
                 logger.Warn("{0}.{1} error:{2}", nameof(GatewayMembershipService), nameof(MembershipCheckingUpdate), ex);
             }
         }
@@ -84,11 +82,11 @@ namespace ZyGames.Framework.Services
         protected internal override void Initialize()
         {
             base.Initialize();
-            this.membershipServiceOptions = ServiceProvider.GetRequiredService<GatewayMembershipServiceOptions>();
-            this.activationDirectory = ServiceProvider.GetRequiredService<ActivationDirectory>();
-            this.addressableDirectory = ServiceProvider.GetRequiredService<AddressableDirectory>();
-            this.membershipManager = ServiceProvider.GetRequiredService<MembershipManager>();
-            this.hostingLifecycle = ServiceProvider.GetRequiredService<IServiceHostLifecycle>();
+            membershipServiceOptions = Container.Required<GatewayMembershipServiceOptions>();
+            activationDirectory = Container.Required<ActivationDirectory>();
+            addressableDirectory = Container.Required<AddressableDirectory>();
+            membershipManager = Container.Required<MembershipManager>();
+            hostingLifecycle = Container.Required<IServiceHostLifecycle>();
 
             Address = membershipServiceOptions.OutsideAddress;
             Identity = Identity.NewIdentity(Identity.Categories.SystemTarget);
@@ -98,14 +96,14 @@ namespace ZyGames.Framework.Services
             membershipEntry.Address = Address;
 
             clusterMembershipService = ServiceFactory.GetSystemTarget<IClusterMembershipService>(Constants.ClusterMembershipServiceIdentity, membershipServiceOptions.Cluster);
-            var lifecycle = ServiceProvider.GetRequiredService<IDirectoryLifecycle>();
-            lifecycle.Subscribe(nameof(GatewayMembershipService), Lifecycles.Stage.System, this);
+            var lifecycle = Container.Required<IDirectoryLifecycle>();
+            lifecycle.Subscribe<GatewayMembershipService>(Lifecycles.Stage.System, this);
         }
 
         protected internal override void Start()
         {
             base.Start();
-            connectionListener = new GatewayConnectionListener(ServiceProvider, membershipServiceOptions);
+            connectionListener = new GatewayConnectionListener(Container, membershipServiceOptions);
             connectionListener.Start();
 
             MembershipCheckingUpdate();
@@ -141,11 +139,11 @@ namespace ZyGames.Framework.Services
 
                 try
                 {
-                    membershipSnapshot = clusterMembershipService.CreateSnapshot();
+                    membershipSnapshot = clusterMembershipService.CreateMembershipSnapshot();
                 }
                 catch (Exception ex)
                 {
-                    logger.Warn("{0}.{1} error:{2}", nameof(GatewayMembershipService), nameof(IClusterMembershipService.CreateSnapshot), ex);
+                    logger.Warn("{0}.{1} error:{2}", nameof(GatewayMembershipService), nameof(IClusterMembershipService.CreateMembershipSnapshot), ex);
                     return;
                 }
 
@@ -167,7 +165,7 @@ namespace ZyGames.Framework.Services
                     if (isAlived)
                     {
                         var membershipTable = CreateMembershipTable();
-                        clusterMembershipService.TableChanged(membershipTable);
+                        clusterMembershipService.MembershipTableChanged(membershipTable);
                     }
                     break;
             }

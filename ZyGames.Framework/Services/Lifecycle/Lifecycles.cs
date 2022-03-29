@@ -8,7 +8,7 @@
 
             internal const int System = 2000;
 
-            public const int User = 3000;
+            public const int Appliction = 3000;
         }
 
         public static class State

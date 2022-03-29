@@ -2,7 +2,7 @@
 {
     public interface ISystemServiceFactory : IServiceFactory
     {
-        TSystemTargetInterface GetSystemTarget<TSystemTargetInterface>(Identity identity, SlioAddress destination)
+        TSystemTargetInterface GetSystemTarget<TSystemTargetInterface>(Identity identity, Address destination)
             where TSystemTargetInterface : ISystemTarget;
     }
 }

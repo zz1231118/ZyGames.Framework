@@ -1,35 +1,40 @@
 ﻿using System;
+using Framework.Injection;
 
 namespace ZyGames.Framework.Services.Runtime
 {
     internal class AddressableTypeData
     {
+        private readonly Type interfaceType;
+        private readonly Type referenceType;
+        private readonly Type invokerType;
+
         public AddressableTypeData(Type interfaceType, Type referenceType, Type invokerType)
         {
-            InterfaceType = interfaceType;
-            ReferenceType = referenceType;
-            InvokerType = invokerType;
+            this.interfaceType = interfaceType;
+            this.referenceType = referenceType;
+            this.invokerType = invokerType;
         }
 
-        public Type InterfaceType { get; }
+        public Type InterfaceType => interfaceType;
 
-        public Type ReferenceType { get; }
+        public Type ReferenceType => referenceType;
 
-        public Type InvokerType { get; }
+        public Type InvokerType => invokerType;
 
-        public ISystemTarget CreateSystemTargetReference(IServiceProvider serviceProvider, IReferenceRuntime runtime, SlioAddress address, Identity identity)
+        public ISystemTarget CreateSystemTargetReference(IReferenceRuntime runtime, Address address, Identity identity)
         {
-            return (ISystemTarget)Activator.CreateInstance(ReferenceType, serviceProvider, runtime, address, identity);
+            return (ISystemTarget)Activator.CreateInstance(referenceType, runtime, address, identity);
         }
 
-        public IService CreateServiceReference(IServiceProvider serviceProvider, IReferenceRuntime runtime, SlioAddress address, Identity identity, object metadata)
+        public IService CreateServiceReference(IContainer container, IReferenceRuntime runtime, Address address, Identity identity, object metadata)
         {
-            return (IService)Activator.CreateInstance(ReferenceType, serviceProvider, runtime, address, identity, metadata);
+            return (IService)Activator.CreateInstance(referenceType, container, runtime, address, identity, metadata);
         }
 
         public IMethodInvoker CreateMethodInvoker()
         {
-            return (IMethodInvoker)Activator.CreateInstance(InvokerType);
+            return (IMethodInvoker)Activator.CreateInstance(invokerType);
         }
     }
 }

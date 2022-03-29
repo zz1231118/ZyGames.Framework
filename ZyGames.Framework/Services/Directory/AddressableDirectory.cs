@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ZyGames.Framework.Services.Directory
 {
-    internal class AddressableDirectory
+    internal sealed class AddressableDirectory
     {
         private readonly object lockable = new object();
         private readonly Dictionary<Identity, IAddressable> addressables = new Dictionary<Identity, IAddressable>();

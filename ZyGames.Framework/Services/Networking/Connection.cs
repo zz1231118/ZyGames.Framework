@@ -1,5 +1,5 @@
 ﻿using System;
-using ZyGames.Framework.Injection;
+using Framework.Injection;
 using ZyGames.Framework.Services.Messaging;
 
 namespace ZyGames.Framework.Services.Networking
@@ -9,9 +9,9 @@ namespace ZyGames.Framework.Services.Networking
         private readonly MessageCenter messageCenter;
         private bool isDisposed;
 
-        public Connection(IServiceProvider serviceProvider)
+        public Connection(IContainer container)
         {
-            this.messageCenter = serviceProvider.GetRequiredService<MessageCenter>();
+            this.messageCenter = container.Required<MessageCenter>();
         }
 
         protected bool IsDisposed => isDisposed;

@@ -9,8 +9,6 @@ namespace ZyGames.Framework.Services.Lifecycle
 
         IDisposable Subscribe(string observerName, int stage, Action<CancellationToken, int> observer);
 
-        void NotifyObserver(CancellationToken token, int state);
-
-        void NotifyObserver(int state);
+        void Notify(CancellationToken token, int state);
     }
 }

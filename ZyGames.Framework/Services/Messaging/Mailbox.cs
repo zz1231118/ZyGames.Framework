@@ -1,33 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
 
 namespace ZyGames.Framework.Services.Messaging
 {
-    internal class Mailbox
+    public class Mailbox
     {
-        private readonly Queue<Message> messages = new Queue<Message>();
+        private volatile int count;
 
-        public int Count => messages.Count;
+        public int Count => count;
 
-        public void Enqueue(Message message)
+        public void Increment()
         {
-            messages.Enqueue(message);
+            Interlocked.Increment(ref count);
         }
 
-        public Message Dequeue()
+        public void Decrement()
         {
-            return messages.Dequeue();
-        }
-
-        public bool TryDequeue(out Message message)
-        {
-            if (messages.Count > 0)
-            {
-                message = messages.Dequeue();
-                return true;
-            }
-
-            message = null;
-            return false;
+            Interlocked.Decrement(ref count);
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Framework.Injection;
 
 namespace ZyGames.Framework.Services
 {
     public abstract class Service : Addressable, IService
     {
+        public IContainer Container { get; internal set; }
+
         public IServiceFactory ServiceFactory { get; internal set; }
 
-        public IServiceProvider ServiceProvider { get; internal set; }
-
-        public sealed override SlioAddress Address { get; internal set; }
+        public sealed override Address Address { get; internal set; }
 
         public sealed override Identity Identity { get; internal set; }
 
@@ -16,9 +16,16 @@ namespace ZyGames.Framework.Services
 
         public object Metadata { get; internal set; }
 
-        public T GetMetadata<T>()
+        public T GetMeta<T>()
+            where T : class
         {
-            return (T)Metadata;
+            return Metadata as T;
+        }
+
+        public T GetMetadata<T>()
+            where T : class
+        {
+            return Metadata as T;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ZyGames.Framework.Services.Lifecycle
 
         public IDisposable WithChanged(string observerName, Action<CancellationToken> observer)
         {
-            return base.Subscribe(observerName, Lifecycles.Stage.User, (Action<CancellationToken, int>)((token, state) =>
+            return base.Subscribe(observerName, Lifecycles.Stage.Appliction, (Action<CancellationToken, int>)((token, state) =>
             {
                 switch (state)
                 {

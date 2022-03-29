@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace ZyGames.Framework.Services.Runtime
+﻿namespace ZyGames.Framework.Services.Runtime
 {
     public abstract class SystemTargetReference : Reference, ISystemTarget
     {
-        protected SystemTargetReference(IServiceProvider serviceProvider, IReferenceRuntime runtime, SlioAddress address, Identity identity)
-            : base(serviceProvider, runtime, address, identity)
+        protected SystemTargetReference(IReferenceRuntime runtime, Address address, Identity identity)
+            : base(runtime, address, identity)
         { }
     }
 }

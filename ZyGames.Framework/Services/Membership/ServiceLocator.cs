@@ -4,7 +4,7 @@ namespace ZyGames.Framework.Services.Membership
 {
     internal class ServiceLocator
     {
-        public SlioAddress Address { get; set; }
+        public Address Address { get; set; }
 
         public Identity Identity { get; set; }
 

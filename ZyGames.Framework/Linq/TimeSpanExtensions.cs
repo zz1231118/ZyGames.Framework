@@ -6,8 +6,8 @@ namespace ZyGames.Framework.Linq
     {
         public static TimeSpan Multiply(this TimeSpan timeSpan, double value)
         {
-            double doubleTicks = checked(timeSpan.Ticks * value);
-            long ticks = checked((long)doubleTicks);
+            var doubleTicks = checked(timeSpan.Ticks * value);
+            var ticks = checked((long)doubleTicks);
             return TimeSpan.FromTicks(ticks);
         }
     }

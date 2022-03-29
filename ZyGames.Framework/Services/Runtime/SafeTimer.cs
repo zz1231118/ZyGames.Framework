@@ -95,7 +95,7 @@ namespace ZyGames.Framework.Services.Runtime
                 {
                     var t = timer;
                     timer = null;
-                    if (logger.IsEnabled(LogLevel.Debug))
+                    if (Logger.IsEnabled(Level.Debug))
                     {
                         logger.Debug("Disposing timer {0}", typeof(SafeTimer).FullName);
                     }
@@ -156,7 +156,7 @@ namespace ZyGames.Framework.Services.Runtime
             if (timer == null) return false;
 
             timerFrequency = period;
-            if (logger.IsEnabled(LogLevel.Debug))
+            if (Logger.IsEnabled(Level.Debug))
             {
                 logger.Debug("Changing timer {0} to dueTime={1} period={2}", typeof(SafeTimer).FullName, newDueTime, period);
             }
@@ -178,13 +178,13 @@ namespace ZyGames.Framework.Services.Runtime
             {
                 try
                 {
-                    if (logger.IsEnabled(LogLevel.Trace))
+                    if (Logger.IsEnabled(Level.Trace))
                     {
                         logger.Trace("About to make sync timer callback for timer {0}", typeof(SafeTimer).FullName);
                     }
 
                     callbackFunc(state);
-                    if (logger.IsEnabled(LogLevel.Trace))
+                    if (Logger.IsEnabled(Level.Trace))
                     {
                         logger.Trace("Completed sync timer callback for timer {0}", typeof(SafeTimer).FullName);
                     }
@@ -211,19 +211,19 @@ namespace ZyGames.Framework.Services.Runtime
                 }
 
                 totalNumTicks++;
-                if (logger.IsEnabled(LogLevel.Trace))
+                if (Logger.IsEnabled(Level.Trace))
                 {
                     logger.Trace("About to QueueNextTimerTick for timer {0}", typeof(SafeTimer).FullName);
                 }
                 if (timerFrequency == Timeout.InfiniteTimeSpan)
                 {
                     DisposeTimer();
-                    if (logger.IsEnabled(LogLevel.Trace)) logger.Trace("Timer {0} is now stopped and disposed", typeof(SafeTimer).FullName);
+                    if (Logger.IsEnabled(Level.Trace)) logger.Trace("Timer {0} is now stopped and disposed", typeof(SafeTimer).FullName);
                 }
                 else
                 {
                     timer.Change(timerFrequency, Timeout.InfiniteTimeSpan);
-                    if (logger.IsEnabled(LogLevel.Trace)) logger.Trace("Queued next tick for timer {0} in {1}", typeof(SafeTimer).FullName, timerFrequency);
+                    if (Logger.IsEnabled(Level.Trace)) logger.Trace("Queued next tick for timer {0} in {1}", typeof(SafeTimer).FullName, timerFrequency);
                 }
             }
             catch (ObjectDisposedException ode)

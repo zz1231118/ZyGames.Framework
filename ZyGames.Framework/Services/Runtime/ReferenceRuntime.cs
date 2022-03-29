@@ -7,12 +7,12 @@ namespace ZyGames.Framework.Services.Runtime
     {
         private readonly MessageCenter messageCenter;
 
-        internal ReferenceRuntime(MessageCenter messageCenter)
+        public ReferenceRuntime(MessageCenter messageCenter)
         {
             this.messageCenter = messageCenter;
         }
 
-        public void InvokeMethod(Reference reference, int methodId, object[] arguments, InvokeMethodOptions options)
+        public void InvokeMethod(Reference reference, int methodId, object[] arguments, InvokeMethodOptions options, int timeoutMills)
         {
             var sending = InvokerContext.Caller;
             var request = new InvokeMethodRequest();
@@ -20,26 +20,26 @@ namespace ZyGames.Framework.Services.Runtime
             request.Arguments = arguments;
 
             var message = new Message();
-            message.Guid = Guid.NewGuid();
+            message.Id = Guid.NewGuid();
             if (sending != null)
             {
-                message.SendingSlio = sending.Address;
+                message.SendingSilo = sending.Address;
                 message.SendingId = sending.Identity;
             }
-            message.TargetSlio = reference.Address;
+            message.TargetSilo = reference.Address;
             message.TargetId = reference.Identity;
             message.Direction = options.HasFlag(InvokeMethodOptions.OneWay) ? Message.Directions.OneWay : Message.Directions.Request;
-            message.BodyObject = request;
+            message.Body = request;
             if (options.HasFlag(InvokeMethodOptions.OneWay))
             {
                 messageCenter.SendMessage(message);
                 return;
             }
 
-            messageCenter.SendRequest(message);
+            messageCenter.SendRequest(message, timeoutMills);
         }
 
-        public T InvokeMethod<T>(Reference reference, int methodId, object[] arguments, InvokeMethodOptions options)
+        public T InvokeMethod<T>(Reference reference, int methodId, object[] arguments, InvokeMethodOptions options, int timeoutMills)
         {
             var sending = InvokerContext.Caller;
             var request = new InvokeMethodRequest();
@@ -47,17 +47,17 @@ namespace ZyGames.Framework.Services.Runtime
             request.Arguments = arguments;
 
             var message = new Message();
-            message.Guid = Guid.NewGuid();
+            message.Id = Guid.NewGuid();
             if (sending != null)
             {
-                message.SendingSlio = sending.Address;
+                message.SendingSilo = sending.Address;
                 message.SendingId = sending.Identity;
             }
-            message.TargetSlio = reference.Address;
+            message.TargetSilo = reference.Address;
             message.TargetId = reference.Identity;
             message.Direction = options.HasFlag(InvokeMethodOptions.OneWay) ? Message.Directions.OneWay : Message.Directions.Request;
-            message.BodyObject = request;
-            return (T)messageCenter.SendRequest(message);
+            message.Body = request;
+            return (T)messageCenter.SendRequest(message, timeoutMills);
         }
     }
 }

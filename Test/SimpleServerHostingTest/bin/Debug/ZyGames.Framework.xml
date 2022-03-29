@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ZyGames.Framework</name>
+    </assembly>
+    <members>
+        <member name="T:ZyGames.Framework.Services.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="F:ZyGames.Framework.Services.Address.None">
+            <inheritdoc />
+        </member>
+        <member name="M:ZyGames.Framework.Services.Address.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZyGames.Framework.Services.Address.#ctor(System.String,System.UInt16)">
+            <inheritdoc />
+        </member>
+        <member name="P:ZyGames.Framework.Services.Address.Host">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Address.Port">
+            <summary>
+            端口
+            </summary>
+        </member>
+        <member name="M:ZyGames.Framework.Services.Address.op_Equality(ZyGames.Framework.Services.Address,ZyGames.Framework.Services.Address)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZyGames.Framework.Services.Address.op_Inequality(ZyGames.Framework.Services.Address,ZyGames.Framework.Services.Address)">
+            <inheritdoc />
+        </member>
+        <member name="M:ZyGames.Framework.Services.Address.Parse(System.String)">
+            <inheritdoc />
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:ZyGames.Framework.Services.Address.TryParse(System.String,ZyGames.Framework.Services.Address@)">
+            <inheritdoc />
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ZyGames.Framework.Services.IAddressable">
+            <summary>
+            可远程访问的地址接口
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.IAddressable.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.IAddressable.Identity">
+            <summary>
+            身份标识
+            </summary>
+        </member>
+        <member name="T:ZyGames.Framework.Services.IService">
+            <summary>
+            服务接口
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.IService.IsAlived">
+            <summary>
+            是否存活
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.IService.Metadata">
+            <summary>
+            元数据
+            </summary>
+        </member>
+        <member name="M:ZyGames.Framework.Services.IService.GetMeta``1">
+            <summary>
+            获取指定类型的元数据
+            </summary>
+        </member>
+        <member name="M:ZyGames.Framework.Services.IService.GetMetadata``1">
+            <summary>
+            获取指定类型的元数据
+            </summary>
+        </member>
+        <member name="T:ZyGames.Framework.Services.IServiceFactory">
+            <summary>
+            服务工厂接口
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.IServiceFactory.Container">
+            <summary>
+            容器
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.IServiceFactory.MembershipLifecycle">
+            <summary>
+            成员生命周期管理器
+            </summary>
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.NewService(System.Type,System.Type,ZyGames.Framework.Services.Identity,System.Object)">
+            <summary>
+            创建一个新的服务
+            </summary>
+            <param name="serviceType">服务类型</param>
+            <param name="serviceInterfaceType">服务接口类型</param>
+            <param name="identity">身份标识</param>
+            <param name="metadata">元数据</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.InvalidOperationException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.NewService``2(ZyGames.Framework.Services.Identity,System.Object)">
+            <summary>
+            创建一个新的服务
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <typeparam name="TService">服务泛型模板</typeparam>
+            <param name="identity">身份标识</param>
+            <param name="metadata">元数据</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.InvalidOperationException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetService(ZyGames.Framework.Services.Identity,System.Boolean)">
+            <summary>
+            获取指定身份标识的服务
+            </summary>
+            <param name="identity">身份标识</param>
+            <param name="throwOnError">如果未找到是否抛出异常。默认：true。</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:ZyGames.Framework.Services.ServiceNotFoundException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetServices(System.Type)">
+            <summary>
+            获取指定类型的服务集合
+            </summary>
+            <param name="serviceInterfaceType">服务接口类型</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetService``1(ZyGames.Framework.Services.Identity,System.Boolean)">
+            <summary>
+            获取指定身份标识的服务
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <param name="identity">身份标识</param>
+            <param name="throwOnError">如果未找到是否抛出异常。默认：true。</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:ZyGames.Framework.Services.ServiceNotFoundException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetService``1(System.Boolean)">
+            <summary>
+            获取首个指定类型的服务
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <param name="throwOnError">如果未找到是否抛出异常。默认：true。</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.InvalidOperationException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetServices``1">
+            <summary>
+            获取指定类型的服务集合
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetService``1(System.Func{``0,System.Boolean})">
+            <summary>
+            查找符合指定条件的服务
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <param name="predicate">查询条件</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetServices``1(System.Func{``0,System.Boolean})">
+            <summary>
+            查找符合指定条件的服务集合
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <param name="predicate">查询条件</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.FindService``1(System.Func{``0,System.Boolean})">
+            <summary>
+            查找符合指定条件的服务
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <param name="predicate">查询条件</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.FindAllService``1(System.Func{``0,System.Boolean})">
+            <summary>
+            查找符合指定条件的服务集合
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <param name="predicate">查询条件</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.GetSingleService``1">
+            <summary>
+            获取指定类型的唯一服务，如果该类型服务并非恰好包含一个元素，则会引发异常。
+            </summary>
+            <typeparam name="TServiceInterface">服务接口泛型模板</typeparam>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.KillService(ZyGames.Framework.Services.Identity)">
+            <summary>
+            杀死指定身份标识的服务
+            </summary>
+            <param name="identity">身份标识</param>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.CreateObjectReference``1(ZyGames.Framework.Services.IServiceObserver)">
+            <summary>
+            创建指定对象的引用
+            </summary>
+            <typeparam name="TServiceObserverInterface">服务观察者接口泛型模板</typeparam>
+            <param name="obj">欲创建的对象</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="M:ZyGames.Framework.Services.IServiceFactory.DeleteObjectReference(ZyGames.Framework.Services.IServiceObserver)">
+            <summary>
+            删除指定对象的引用
+            </summary>
+            <param name="obj">欲删除的对象</param>
+            <exception cref="T:System.ArgumentNullException" />
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.InsideAddress">
+            <summary>
+            内部地址。
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.OutsideAddress">
+            <summary>
+            外部地址。
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.Backlog">
+            <summary>
+            最大挂起连接队列的长度。
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.MaxConnections">
+            <summary>
+            最大连接数。
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.BufferSize">
+            <summary>
+            缓存大小。默认：2048
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.RequestTimeout">
+            <summary>
+            请求超时时间。默认：30s
+            </summary>
+        </member>
+        <member name="P:ZyGames.Framework.Services.Options.ConnectionListenerOptions.Overloaded">
+            <summary>
+            最高负载。默认：0
+            <para>0：无限制。</para>
+            </summary>
+        </member>
+        <member name="M:ZyGames.Framework.Services.Options.ConnectionListenerOptions.CopyFrom(Framework.Configuration.Config)">
+            <summary>
+            从指定配置项中读取配置。
+            </summary>
+        </member>
+        <member name="M:ZyGames.Framework.Services.Telemetry.ITelemetryProducer.TrackMetric(System.String,System.Double,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>Send a metric value to the registered telemetry consumers.</summary>
+            <param name="name">Metric name.</param>
+            <param name="value">Metric value.</param>
+            <param name="properties">Named string values you can use to classify and filter metrics.</param>
+        </member>
+        <member name="M:ZyGames.Framework.Services.Telemetry.ITelemetryProducer.TrackMetric(System.String,System.TimeSpan,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>Send a metric value to the registered telemetry consumers.</summary>
+            <param name="name">Metric name.</param>
+            <param name="value">Metric value.</param>
+            <param name="properties">Named string values you can use to classify and filter metrics.</param>
+        </member>
+    </members>
+</doc>

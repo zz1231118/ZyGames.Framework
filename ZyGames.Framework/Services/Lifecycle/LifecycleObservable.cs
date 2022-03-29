@@ -20,7 +20,7 @@ namespace ZyGames.Framework.Services.Lifecycle
 
         public int? State => nextState;
 
-        public virtual IDisposable Subscribe(string observerName, int stage, ILifecycleObserver observer)
+        public IDisposable Subscribe(string observerName, int stage, ILifecycleObserver observer)
         {
             if (observer == null)
                 throw new ArgumentNullException(nameof(observer));
@@ -32,7 +32,7 @@ namespace ZyGames.Framework.Services.Lifecycle
             return new Disposable(() => subscribers.Remove(orderedObserver));
         }
 
-        public virtual IDisposable Subscribe(string observerName, int stage, Action<CancellationToken, int> observer)
+        public IDisposable Subscribe(string observerName, int stage, Action<CancellationToken, int> observer)
         {
             if (observer == null)
                 throw new ArgumentNullException(nameof(observer));
@@ -44,7 +44,7 @@ namespace ZyGames.Framework.Services.Lifecycle
             return new Disposable(() => subscribers.Remove(orderedObserver));
         }
 
-        public void NotifyObserver(CancellationToken token, int state)
+        public void Notify(CancellationToken token, int state)
         {
             string observerName = null;
 
@@ -69,30 +69,25 @@ namespace ZyGames.Framework.Services.Lifecycle
                     nextState = state;
                 }
             }
-            catch (Exception ex) when (!(ex is LifecycleCanceledException))
+            catch (Exception ex) when (ex is not LifecycleCanceledException)
             {
-                logger?.Error("Lifecycle start canceled due to errors {0} at stage {1}: {2}", observerName, highStage.GetValueOrDefault(), ex);
+                logger?.Error("Lifecycle start canceled due to errors {0} at state {1}: {2}", observerName, state, ex);
                 throw;
             }
         }
 
-        public void NotifyObserver(int state)
+        sealed class Disposable : IDisposable
         {
-            NotifyObserver(CancellationToken.None, state);
-        }
+            private readonly Action disposable;
 
-        class Disposable : IDisposable
-        {
-            private readonly Action dispose;
-
-            public Disposable(Action dispose)
+            public Disposable(Action disposable)
             {
-                this.dispose = dispose;
+                this.disposable = disposable;
             }
 
             public void Dispose()
             {
-                dispose();
+                disposable();
             }
         }
 
@@ -111,7 +106,7 @@ namespace ZyGames.Framework.Services.Lifecycle
             public abstract void Notify(CancellationToken token, int state);
         }
 
-        class LifecycleOrderedObserver : OrderedObserver
+        sealed class LifecycleOrderedObserver : OrderedObserver
         {
             public LifecycleOrderedObserver(string name, int stage, ILifecycleObserver observer)
                 : base(name, stage)
@@ -127,7 +122,7 @@ namespace ZyGames.Framework.Services.Lifecycle
             }
         }
 
-        class ActionOrderedObserver : OrderedObserver
+        sealed class ActionOrderedObserver : OrderedObserver
         {
             public ActionOrderedObserver(string name, int stage, Action<CancellationToken, int> observer)
                 : base(name, stage)

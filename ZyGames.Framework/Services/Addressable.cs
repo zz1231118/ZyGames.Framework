@@ -2,7 +2,7 @@
 {
     public abstract class Addressable : IAddressable
     {
-        public abstract SlioAddress Address { get; internal set; }
+        public abstract Address Address { get; internal set; }
 
         public abstract Identity Identity { get; internal set; }
 

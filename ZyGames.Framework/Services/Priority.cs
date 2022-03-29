@@ -4,6 +4,6 @@
     {
         Core,
         System,
-        User,
+        Application,
     }
 }

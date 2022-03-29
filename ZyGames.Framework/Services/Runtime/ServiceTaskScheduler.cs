@@ -12,34 +12,55 @@ namespace ZyGames.Framework.Services.Runtime
         private readonly ILogger logger = Logger.GetLogger<ServiceTaskScheduler>();
         private readonly BlockingCollection<Task> tasks = new BlockingCollection<Task>();
         private readonly ConcurrentDictionary<int, Thread> threads = new ConcurrentDictionary<int, Thread>();
-        private int blockingWorkerThread;
+        private int minWorkerThread;
+        private int maxWorkerThread;
+        private int currentWorkerThread;
         private int completedWorkerThread;
 
-        public ServiceTaskScheduler(int blockingWorkerThread)
+        public ServiceTaskScheduler(int minWorkerThread, int maxWorkerThread)
         {
-            if (blockingWorkerThread <= 0)
-                throw new ArgumentOutOfRangeException(nameof(blockingWorkerThread));
+            if (minWorkerThread <= 0)
+                throw new ArgumentOutOfRangeException(nameof(minWorkerThread));
+            if (maxWorkerThread < minWorkerThread)
+                throw new ArgumentOutOfRangeException(nameof(maxWorkerThread));
 
-            this.blockingWorkerThread = blockingWorkerThread;
+            this.minWorkerThread = minWorkerThread;
+            this.maxWorkerThread = maxWorkerThread;
         }
 
         public ServiceTaskScheduler()
-            : this(Environment.ProcessorCount)
+            : this(Environment.ProcessorCount, 32767)
         { }
 
-        public int BlockingWorkerThread
+        public int MinWorkerThread
         {
-            get => blockingWorkerThread;
+            get => minWorkerThread;
             set 
             {
-                if (blockingWorkerThread <= 0)
+                if (minWorkerThread <= 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
 
-                blockingWorkerThread = value;
+                minWorkerThread = value;
             }
         }
 
-        public int CompletedWorkerThread => completedWorkerThread;
+        public int MaxWorkerThread
+        {
+            get => maxWorkerThread;
+            set
+            {
+                if (maxWorkerThread < minWorkerThread)
+                    throw new ArgumentOutOfRangeException(nameof(value));
+
+                maxWorkerThread = value;
+            }
+        }
+
+        public int AvailableWorkerThread => maxWorkerThread - currentWorkerThread;
+
+        public int ThreadCount => threads.Count;
+
+        public int WaitTaskCount => tasks.Count;
 
         private void Execute()
         {
@@ -47,6 +68,7 @@ namespace ZyGames.Framework.Services.Runtime
             while (true)
             {
                 task = tasks.Take();
+                Interlocked.Increment(ref currentWorkerThread);
 
                 try
                 {
@@ -59,9 +81,13 @@ namespace ZyGames.Framework.Services.Runtime
                 {
                     logger.Error("Execute: Worker thread {0} caught an exception thrown from Execute: {1}", Thread.CurrentThread.ManagedThreadId, ex);
                 }
-                if (completedWorkerThread > blockingWorkerThread)
+                finally
                 {
-                    if (Interlocked.Decrement(ref completedWorkerThread) >= blockingWorkerThread)
+                    Interlocked.Decrement(ref currentWorkerThread);
+                }
+                if (completedWorkerThread > minWorkerThread)
+                {
+                    if (Interlocked.Decrement(ref completedWorkerThread) >= minWorkerThread)
                     {
                         threads.TryRemove(Thread.CurrentThread.ManagedThreadId, out _);
                         break;
@@ -82,9 +108,9 @@ namespace ZyGames.Framework.Services.Runtime
         protected override void QueueTask(Task task)
         {
             tasks.Add(task);
-            if (tasks.Count > 0 && completedWorkerThread < blockingWorkerThread)
+            if (currentWorkerThread >= completedWorkerThread && completedWorkerThread < maxWorkerThread)
             {
-                if (Interlocked.Increment(ref completedWorkerThread) <= blockingWorkerThread)
+                if (Interlocked.Increment(ref completedWorkerThread) <= maxWorkerThread)
                 {
                     var thread = new Thread(new ThreadStart(Execute));
                     thread.IsBackground = true;
@@ -107,7 +133,7 @@ namespace ZyGames.Framework.Services.Runtime
             }
             if (!canExecuteInline)
             {
-                if (logger.IsEnabled(LogLevel.Trace)) logger.Trace("TryExecuteTaskInline Task Id={0} Status={1} Execute=No", task.Id, task.Status);
+                if (Logger.IsEnabled(Level.Trace)) logger.Trace("TryExecuteTaskInline Task Id={0} Status={1} Execute=No", task.Id, task.Status);
                 return false;
             }
             var done = TryExecuteTask(task);

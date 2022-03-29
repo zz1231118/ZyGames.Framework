@@ -1,25 +1,25 @@
 ﻿using System;
+using Framework.Injection;
 using Framework.Net.Sockets;
-using ZyGames.Framework.Injection;
 using ZyGames.Framework.Services.Options;
 
 namespace ZyGames.Framework.Services.Networking
 {
     internal class ClusterConnectionListener : ConnectionListener
     {
-        private readonly ConnectionManager connectionManager;
+        private readonly IConnectionManager connectionManager;
 
-        public ClusterConnectionListener(IServiceProvider serviceProvider, ConnectionListenerOptions connectionListenerOptions)
-            : base(serviceProvider, connectionListenerOptions)
+        public ClusterConnectionListener(IContainer container, ConnectionListenerOptions connectionListenerOptions)
+            : base(container, connectionListenerOptions)
         {
-            connectionManager = serviceProvider.GetRequiredService<ConnectionManager>();
+            connectionManager = container.Required<IConnectionManager>();
         }
 
         public event EventHandler<ClusterConnectionEventArgs> Terminated;
 
         protected sealed override InboundConnection CreateInboundConnection(ExSocket socket)
         {
-            return new ClusterInbounConnection(ServiceProvider, this, socket, connectionManager);
+            return new ClusterInbounConnection(Container, this, socket, connectionManager);
         }
 
         public void ConnectionTerminated(ClusterInbounConnection connection)

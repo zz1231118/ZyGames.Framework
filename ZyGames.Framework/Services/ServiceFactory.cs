@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using ZyGames.Framework.Injection;
+using Framework.Injection;
 using ZyGames.Framework.Services.Directory;
 using ZyGames.Framework.Services.Lifecycle;
 using ZyGames.Framework.Services.Membership;
@@ -14,7 +14,7 @@ namespace ZyGames.Framework.Services
 {
     internal class ServiceFactory : ISystemServiceFactory, ILifecycleObserver
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IContainer container;
         private readonly ActivationDirectory activationDirectory;
         private readonly AddressableDirectory addressableDirectory;
         private readonly AddressableTypeManager addressableTypeManager;
@@ -26,29 +26,31 @@ namespace ZyGames.Framework.Services
         private readonly Func<Identity, IService> serviceReferenceFactory;
         private IClusterMembershipService clusterMembershipService;
 
-        public IMembershipLifecycle MembershipLifecycle => membershipLifecycle;
-
-        public ServiceFactory(IServiceProvider serviceProvider)
+        public ServiceFactory(IContainer container)
         {
-            this.serviceProvider = serviceProvider;
-            this.activationDirectory = serviceProvider.GetRequiredService<ActivationDirectory>();
-            this.addressableDirectory = serviceProvider.GetRequiredService<AddressableDirectory>();
-            this.addressableTypeManager = serviceProvider.GetRequiredService<AddressableTypeManager>();
-            this.referenceRuntime = serviceProvider.GetRequiredService<ReferenceRuntime>();
-            this.membershipServiceOptions = serviceProvider.GetService<GatewayMembershipServiceOptions>();
-            this.membershipManager = serviceProvider.GetRequiredService<MembershipManager>();
-            this.hostingLifecycle = serviceProvider.GetRequiredService<IServiceHostLifecycle>();
-            this.membershipLifecycle = serviceProvider.GetRequiredService<IMembershipLifecycle>();
+            this.container = container;
+            this.activationDirectory = container.Required<ActivationDirectory>();
+            this.addressableDirectory = container.Required<AddressableDirectory>();
+            this.addressableTypeManager = container.Required<AddressableTypeManager>();
+            this.referenceRuntime = container.Required<ReferenceRuntime>();
+            this.membershipServiceOptions = container.Optional<GatewayMembershipServiceOptions>();
+            this.membershipManager = container.Required<MembershipManager>();
+            this.hostingLifecycle = container.Required<IServiceHostLifecycle>();
+            this.membershipLifecycle = container.Required<IMembershipLifecycle>();
             this.serviceReferenceFactory = new Func<Identity, IService>(CastServiceReference);
-            this.hostingLifecycle.Subscribe(nameof(ServiceFactory), Lifecycles.Stage.System, this);
+            this.hostingLifecycle.Subscribe<ServiceFactory>(Lifecycles.Stage.System, this);
         }
+
+        public IContainer Container => container;
+
+        public IMembershipLifecycle MembershipLifecycle => membershipLifecycle;
 
         private IService GetService(ServiceLocator locator)
         {
             return (IService)addressableDirectory.GetAddressable(locator.Identity, key =>
             {
                 var serviceTypeData = addressableTypeManager.GetServiceTypeData(locator.InterfaceType);
-                return serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, locator.Address, locator.Identity, locator.Metadata);
+                return serviceTypeData.CreateServiceReference(container, referenceRuntime, locator.Address, locator.Identity, locator.Metadata);
             });
         }
 
@@ -62,20 +64,23 @@ namespace ZyGames.Framework.Services
             }
 
             var serviceTypeData = addressableTypeManager.GetServiceTypeData(serviceLocator.InterfaceType);
-            return serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, serviceLocator.Address, identity, serviceLocator.Metadata);
+            return serviceTypeData.CreateServiceReference(container, referenceRuntime, serviceLocator.Address, identity, serviceLocator.Metadata);
         }
 
         internal void NewSystemTarget(Type systemTargetType, Type systemTargetInterfaceType)
         {
+            var priority = Priority.Application;
+            var contract = systemTargetInterfaceType.GetCustomAttribute<SystemTargetContractAttribute>();
+            if (contract != null) priority = contract.Priority;
+
             var systemTarget = (SystemTarget)Activator.CreateInstance(systemTargetType, true);
             systemTarget.ServiceFactory = this;
-            systemTarget.ServiceProvider = serviceProvider;
+            systemTarget.Container = container;
             systemTarget.Initialize();
 
-            var invokeContextCategory = InvokeContextCategory.Multi;
             var systemTargetTypeData = addressableTypeManager.GetSystemTargetTypeData(systemTargetInterfaceType);
             var methodInvoker = systemTargetTypeData.CreateMethodInvoker();
-            var activation = new ActivationData(systemTarget, methodInvoker, systemTargetInterfaceType, systemTarget.Priority, invokeContextCategory);
+            var activation = new Activation(systemTarget, methodInvoker, systemTargetInterfaceType, priority);
             activationDirectory.RegisterTarget(activation);
         }
 
@@ -88,20 +93,15 @@ namespace ZyGames.Framework.Services
             if (membershipServiceOptions == null)
                 throw new InvalidOperationException("Gateway service not found.");
 
-            var invokeContextCategory = InvokeContextCategory.Multi;
-            var serviceContract = serviceInterfaceType.GetCustomAttribute<ServiceContractAttribute>(false);
-            if (serviceContract != null)
+            var contract = serviceInterfaceType.GetCustomAttribute<ServiceContractAttribute>(false);
+            if (contract != null && identity == null && contract.Guid != null)
             {
-                invokeContextCategory = serviceContract.InvokeContextCategory;
-                if (identity == null && serviceContract.Guid != null)
-                {
-                    identity = new Identity(serviceContract.Guid.Value, Identity.Categories.Service);
-                }
+                identity = new Identity(contract.Guid.Value, Identity.Categories.Service);
             }
 
             var service = (Service)Activator.CreateInstance(serviceType);
             service.ServiceFactory = this;
-            service.ServiceProvider = serviceProvider;
+            service.Container = container;
             service.Identity = identity ?? Identity.NewIdentity(Identity.Categories.Service);
             service.Address = membershipServiceOptions.OutsideAddress;
             service.Metadata = metadata;
@@ -109,7 +109,7 @@ namespace ZyGames.Framework.Services
 
             var serviceTypeData = addressableTypeManager.GetServiceTypeData(serviceInterfaceType);
             var methodInvoker = serviceTypeData.CreateMethodInvoker();
-            var activation = new ActivationData(service, methodInvoker, serviceInterfaceType, Priority.User, invokeContextCategory);
+            var activation = new Activation(service, methodInvoker, serviceInterfaceType, Priority.Application);
             activationDirectory.RegisterTarget(activation);
 
             if (hostingLifecycle.Status >= ServiceHostStatus.Joining)
@@ -126,19 +126,19 @@ namespace ZyGames.Framework.Services
                 }
             }
 
-            var reference = serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, service.Address, service.Identity, metadata);
+            var reference = serviceTypeData.CreateServiceReference(container, referenceRuntime, service.Address, service.Identity, metadata);
             addressableDirectory.Add(reference);
             return reference;
         }
 
-        public TSystemTargetInterface GetSystemTarget<TSystemTargetInterface>(Identity identity, SlioAddress destination)
+        public TSystemTargetInterface GetSystemTarget<TSystemTargetInterface>(Identity identity, Address destination)
             where TSystemTargetInterface : ISystemTarget
         {
             return (TSystemTargetInterface)addressableDirectory.GetAddressable(identity, key =>
             {
                 var systemTargetInterfaceType = typeof(TSystemTargetInterface);
                 var systemTargetTypeData = addressableTypeManager.GetSystemTargetTypeData(systemTargetInterfaceType);
-                return systemTargetTypeData.CreateSystemTargetReference(serviceProvider, referenceRuntime, destination, identity);
+                return systemTargetTypeData.CreateSystemTargetReference(referenceRuntime, destination, identity);
             });
         }
 
@@ -170,7 +170,7 @@ namespace ZyGames.Framework.Services
                 addressable = addressableDirectory.GetAddressable(identity, key =>
                 {
                     var serviceTypeData = addressableTypeManager.GetServiceTypeData(locator.InterfaceType);
-                    return serviceTypeData.CreateServiceReference(serviceProvider, referenceRuntime, locator.Address, locator.Identity, locator.Metadata);
+                    return serviceTypeData.CreateServiceReference(container, referenceRuntime, locator.Address, locator.Identity, locator.Metadata);
                 });
             }
             return (IService)addressable;
@@ -199,6 +199,12 @@ namespace ZyGames.Framework.Services
             return (TServiceInterface)GetService(identity, throwOnError);
         }
 
+        public TServiceInterface GetService<TServiceInterface>(bool throwOnError)
+            where TServiceInterface : IService
+        {
+            return throwOnError ? GetServices<TServiceInterface>().First() : GetServices<TServiceInterface>().FirstOrDefault();
+        }
+
         public IReadOnlyList<TServiceInterface> GetServices<TServiceInterface>()
             where TServiceInterface : IService
         {
@@ -212,18 +218,44 @@ namespace ZyGames.Framework.Services
             return services;
         }
 
+        public TServiceInterface GetService<TServiceInterface>(Func<TServiceInterface, bool> predicate)
+            where TServiceInterface : IService
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            var services = GetServices<TServiceInterface>();
+            return services.FirstOrDefault(predicate);
+        }
+
+        public IReadOnlyList<TServiceInterface> GetServices<TServiceInterface>(Func<TServiceInterface, bool> predicate)
+            where TServiceInterface : IService
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            var services = GetServices<TServiceInterface>();
+            return services.Where(predicate).ToList();
+        }
+
         public TServiceInterface FindService<TServiceInterface>(Func<TServiceInterface, bool> predicate)
             where TServiceInterface : IService
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             var services = GetServices<TServiceInterface>();
-            return predicate != null ? services.FirstOrDefault(predicate) : services.FirstOrDefault();
+            return services.FirstOrDefault(predicate);
         }
 
         public IReadOnlyList<TServiceInterface> FindAllService<TServiceInterface>(Func<TServiceInterface, bool> predicate)
             where TServiceInterface : IService
         {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
             var services = GetServices<TServiceInterface>();
-            return predicate != null ? services.Where(predicate).ToList() : services;
+            return services.Where(predicate).ToList();
         }
 
         public TServiceInterface GetSingleService<TServiceInterface>()

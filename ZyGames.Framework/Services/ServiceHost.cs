@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using ZyGames.Framework.Injection;
+using Framework.Injection;
 using ZyGames.Framework.Services.Lifecycle;
 
 namespace ZyGames.Framework.Services
@@ -10,21 +10,25 @@ namespace ZyGames.Framework.Services
         private const int NoneSentinel = 0;
         private const int ActiveSentinel = 1;
 
-        private readonly IServiceProvider serviceProvider;
-        private readonly ServiceFactory serviceFactory;
+        private readonly IContainer container;
+        private readonly IServiceFactory serviceFactory;
         private readonly IServiceHostLifecycle lifecycle;
         private int isInRunning;
 
-        internal ServiceHost(IServiceProvider serviceProvider)
+        internal ServiceHost(IContainer container)
         {
-            this.serviceProvider = serviceProvider;
-            this.serviceFactory = serviceProvider.GetRequiredService<ServiceFactory>();
-            this.lifecycle = serviceProvider.GetRequiredService<IServiceHostLifecycle>();
+            this.container = container;
+            this.serviceFactory = container.Required<IServiceFactory>();
+            this.lifecycle = container.Required<IServiceHostLifecycle>();
+            foreach (var participant in container.Repeated<ILifecycleParticipant<IServiceHostLifecycle>>())
+            {
+                participant.Participate(this.lifecycle);
+            }
         }
 
         public ServiceHostStatus Status => lifecycle.Status;
 
-        public IServiceProvider ServiceProvider => serviceProvider;
+        public IContainer Container => container;
 
         public IServiceFactory ServiceFactory => serviceFactory;
 
@@ -39,7 +43,7 @@ namespace ZyGames.Framework.Services
 
             try
             {
-                lifecycle.NotifyObserver(Lifecycles.State.ServiceHost.Starting);
+                lifecycle.Notify(Lifecycles.State.ServiceHost.Starting);
             }
             catch
             {
@@ -52,7 +56,7 @@ namespace ZyGames.Framework.Services
         {
             if (Interlocked.Exchange(ref isInRunning, NoneSentinel) != NoneSentinel)
             {
-                lifecycle.NotifyObserver(Lifecycles.State.ServiceHost.Stopped);
+                lifecycle.Notify(Lifecycles.State.ServiceHost.Stopped);
             }
         }
     }

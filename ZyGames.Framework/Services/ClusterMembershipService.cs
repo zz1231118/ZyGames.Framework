@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Framework.Injection;
 using Framework.Log;
-using ZyGames.Framework.Injection;
 using ZyGames.Framework.Services.Membership;
 using ZyGames.Framework.Services.Networking;
 using ZyGames.Framework.Services.Options;
 
 namespace ZyGames.Framework.Services
 {
-    public sealed class ClusterMembershipService : SystemTarget, IClusterMembershipService
+    public sealed class ClusterMembershipService : SystemTarget, IClusterMembershipService, IOptions<ClusterMembershipServiceOptions>
     {
         private readonly ILogger logger = Logger.GetLogger<ClusterMembershipService>();
-        private readonly ConcurrentDictionary<SlioAddress, MembershipMember> membershipMembers = new ConcurrentDictionary<SlioAddress, MembershipMember>();
+        private readonly ConcurrentDictionary<Address, MembershipMember> membershipMembers = new ConcurrentDictionary<Address, MembershipMember>();
         private readonly MembershipVersion membershipVersion = new MembershipVersion();
         private ClusterMembershipServiceOptions membershipServiceOptions;
         private ClusterConnectionListener connectionListener;
@@ -20,12 +20,10 @@ namespace ZyGames.Framework.Services
         internal ClusterMembershipService()
         { }
 
-        internal override Priority Priority => Priority.Core;
-
         private void ConnectionListener_Terminated(object sender, ClusterConnectionEventArgs e)
         {
             var connection = e.Connection;
-            if (membershipMembers.TryRemove(connection.RemoteSlioAddress, out _))
+            if (membershipMembers.TryRemove(connection.RemoteSiloAddress, out _))
             {
                 var version = membershipVersion.Increment();
                 NotifyMembershipTableChanged(version, null);
@@ -44,7 +42,7 @@ namespace ZyGames.Framework.Services
                     }
                     catch (Exception ex)
                     {
-                        logger.Warn("{0}.{1} error:{2}", nameof(ClusterMembershipService), nameof(TableChanged), ex);
+                        logger.Warn("{0}.{1} error:{2}", nameof(MembershipMember), nameof(MembershipMember.MembershipTableChanged), ex);
                     }
                 }
             }
@@ -53,7 +51,7 @@ namespace ZyGames.Framework.Services
         protected internal override void Initialize()
         {
             base.Initialize();
-            membershipServiceOptions = ServiceProvider.GetRequiredService<ClusterMembershipServiceOptions>();
+            membershipServiceOptions = Container.Required<ClusterMembershipServiceOptions>();
 
             Address = membershipServiceOptions.OutsideAddress;
             Identity = Constants.ClusterMembershipServiceIdentity;
@@ -62,7 +60,7 @@ namespace ZyGames.Framework.Services
         protected internal override void Start()
         {
             base.Start();
-            connectionListener = new ClusterConnectionListener(ServiceProvider, membershipServiceOptions);
+            connectionListener = new ClusterConnectionListener(Container, membershipServiceOptions);
             connectionListener.Terminated += new EventHandler<ClusterConnectionEventArgs>(ConnectionListener_Terminated);
             connectionListener.Start();
         }
@@ -73,53 +71,53 @@ namespace ZyGames.Framework.Services
             connectionListener.Stop();
         }
 
-        public bool Alive(MembershipEntry entry)
+        public bool Alive(MembershipEntry membershipEntry)
         {
-            return membershipMembers.ContainsKey(entry.Address);
+            return membershipMembers.ContainsKey(membershipEntry.Address);
         }
 
-        public MembershipSnapshot Register(MembershipTable table)
+        public MembershipSnapshot Register(MembershipTable membershipTable)
         {
-            var entry = table.Entry;
-            var systemTarget = ServiceFactory.GetSystemTarget<IGatewayMembershipService>(entry.Identity, entry.Address);
-            var membershipMember = new MembershipMember(systemTarget, table);
+            var membershipEntry = membershipTable.Entry;
+            var systemTarget = ServiceFactory.GetSystemTarget<IGatewayMembershipService>(membershipEntry.Identity, membershipEntry.Address);
+            var membershipMember = new MembershipMember(systemTarget, membershipTable);
             membershipMembers[membershipMember.Address] = membershipMember;
             NotifyMembershipTableChanged(membershipVersion.Increment(), membershipMember.Identity);
-            return CreateSnapshot();
+            return CreateMembershipSnapshot();
         }
 
-        public void Unregister(MembershipEntry entry)
+        public void Unregister(MembershipEntry membershipEntry)
         {
-            if (membershipMembers.TryRemove(entry.Address, out _))
+            if (membershipMembers.TryRemove(membershipEntry.Address, out _))
             {
                 NotifyMembershipTableChanged(membershipVersion.Increment(), null);
             }
         }
 
-        public MembershipSnapshot CreateSnapshot()
+        public void MembershipTableChanged(MembershipTable membershipTable)
         {
-            var snapshot = new MembershipSnapshot();
-            snapshot.Version = new MembershipVersion(membershipVersion);
-            snapshot.Tables = new List<MembershipTable>();
-            foreach (var member in membershipMembers.Values)
+            var membershipEntry = membershipTable.Entry;
+            if (!membershipMembers.TryGetValue(membershipEntry.Address, out MembershipMember member))
             {
-                snapshot.Tables.Add(member.Table);
-            }
-            return snapshot;
-        }
-
-        public void TableChanged(MembershipTable table)
-        {
-            var entry = table.Entry;
-            if (!membershipMembers.TryGetValue(entry.Address, out MembershipMember member))
-            {
-                logger.Warn("{0} MembershipMember:{1} not found.", nameof(TableChanged), table.Entry.Address);
+                logger.Warn("{0}.{1} MembershipMember:{2} not found.", nameof(ClusterMembershipService), nameof(MembershipTableChanged), membershipTable.Entry.Address);
                 return;
             }
 
-            member.Update(table);
+            member.Update(membershipTable);
             var version = membershipVersion.Increment();
             NotifyMembershipTableChanged(version, null);
+        }
+
+        public MembershipSnapshot CreateMembershipSnapshot()
+        {
+            var membershipSnapshot = new MembershipSnapshot();
+            membershipSnapshot.Version = new MembershipVersion(membershipVersion);
+            membershipSnapshot.Tables = new List<MembershipTable>();
+            foreach (var member in membershipMembers.Values)
+            {
+                membershipSnapshot.Tables.Add(member.Table);
+            }
+            return membershipSnapshot;
         }
 
         public void KillService(Identity identity)
@@ -137,7 +135,7 @@ namespace ZyGames.Framework.Services
             }
         }
 
-        class MembershipMember
+        sealed class MembershipMember
         {
             private readonly IGatewayMembershipService systemTarget;
             private MembershipTable table;
@@ -150,7 +148,7 @@ namespace ZyGames.Framework.Services
 
             public Identity Identity => table.Entry.Identity;
 
-            public SlioAddress Address => table.Entry.Address;
+            public Address Address => table.Entry.Address;
 
             public MembershipTable Table => table;
 
@@ -161,7 +159,7 @@ namespace ZyGames.Framework.Services
 
             public bool Contains(Identity identity)
             {
-                return table.Rows.Exists(p => p.Identity == identity);
+                return table.Contains(identity);
             }
 
             public void MembershipTableChanged(MembershipVersion version)

@@ -2,22 +2,23 @@
 
 namespace ZyGames.Framework.Services
 {
+    [SystemTargetContract(Priority.Core)]
     public interface IClusterMembershipService : ISystemTarget
     {
         [OperationContract]
-        bool Alive(MembershipEntry entry);
+        bool Alive(MembershipEntry membershipEntry);
 
         [OperationContract]
-        MembershipSnapshot Register(MembershipTable table);
+        MembershipSnapshot Register(MembershipTable membershipTable);
 
         [OperationContract]
-        void Unregister(MembershipEntry entry);
+        void Unregister(MembershipEntry membershipEntry);
 
         [OperationContract(InvokeMethodOptions.OneWay)]
-        void TableChanged(MembershipTable table);
+        void MembershipTableChanged(MembershipTable membershipTable);
 
         [OperationContract]
-        MembershipSnapshot CreateSnapshot();
+        MembershipSnapshot CreateMembershipSnapshot();
 
         [OperationContract(InvokeMethodOptions.OneWay)]
         void KillService(Identity identity);

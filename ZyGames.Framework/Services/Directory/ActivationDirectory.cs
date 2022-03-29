@@ -3,55 +3,55 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ZyGames.Framework.Injection;
+using Framework.Injection;
 using ZyGames.Framework.Services.Lifecycle;
 using ZyGames.Framework.Services.Membership;
 using ZyGames.Framework.Services.Runtime;
 
 namespace ZyGames.Framework.Services.Directory
 {
-    internal class ActivationDirectory : ILifecycleObserver
+    internal sealed class ActivationDirectory : ILifecycleObserver
     {
-        private readonly ConcurrentDictionary<Identity, ActivationData> activations = new ConcurrentDictionary<Identity, ActivationData>();
+        private readonly ConcurrentDictionary<Identity, Activation> activations = new ConcurrentDictionary<Identity, Activation>();
         private readonly MembershipVersion membershipVersion = new MembershipVersion();
         private readonly IServiceHostLifecycle hostingLifecycle;
         private readonly IDirectoryLifecycle directoryLifecycle;
         private readonly BinarySerializer binarySerializer;
 
-        public ActivationDirectory(IServiceProvider serviceProvider)
+        public ActivationDirectory(IContainer container)
         {
-            this.hostingLifecycle = serviceProvider.GetRequiredService<IServiceHostLifecycle>();
-            this.directoryLifecycle = serviceProvider.GetRequiredService<IDirectoryLifecycle>();
-            this.binarySerializer = serviceProvider.GetRequiredService<BinarySerializer>();
-            this.hostingLifecycle.Subscribe(nameof(ActivationDirectory), Lifecycles.Stage.Core, this);
+            this.hostingLifecycle = container.Required<IServiceHostLifecycle>();
+            this.directoryLifecycle = container.Required<IDirectoryLifecycle>();
+            this.binarySerializer = container.Required<BinarySerializer>();
+            this.hostingLifecycle.Subscribe<ActivationDirectory>(Lifecycles.Stage.Core, this);
         }
 
-        public ICollection<ActivationData> Activations => activations.Values;
+        public ICollection<Activation> Activations => activations.Values;
 
         public MembershipVersion Version => membershipVersion;
 
-        public void RegisterTarget(ActivationData activation)
+        public void RegisterTarget(Activation activation)
         {
             if (!activations.TryAdd(activation.Identity, activation))
-                throw new InvalidOperationException("repeatitive add");
+                throw new InvalidOperationException("repeatitive identity");
 
             membershipVersion.Increment();
-            directoryLifecycle.NotifyObserver(Lifecycles.State.ActivationDirectory.Changed);
+            directoryLifecycle.Notify(Lifecycles.State.ActivationDirectory.Changed);
         }
 
-        public ActivationData FindTarget(Identity identity)
+        public Activation FindTarget(Identity identity)
         {
-            activations.TryGetValue(identity, out ActivationData activation);
+            activations.TryGetValue(identity, out Activation activation);
             return activation;
         }
 
         public bool KillTarget(Identity identity)
         {
-            if (activations.TryRemove(identity, out ActivationData activation))
+            if (activations.TryRemove(identity, out Activation activation))
             {
                 activation.Stop();
                 membershipVersion.Increment();
-                directoryLifecycle.NotifyObserver(Lifecycles.State.ActivationDirectory.Changed);
+                directoryLifecycle.Notify(Lifecycles.State.ActivationDirectory.Changed);
                 return true;
             }
 
@@ -80,6 +80,7 @@ namespace ZyGames.Framework.Services.Directory
                     {
                         row.Metadata = binarySerializer.Serialize(service.Metadata);
                     }
+
                     table.Rows.Add(row);
                 }
             }

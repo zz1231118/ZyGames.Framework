@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Framework.Injection;
 using Framework.Log;
-using ZyGames.Framework.Injection;
 using ZyGames.Framework.Services.Lifecycle;
 using ZyGames.Framework.Services.Runtime;
 
@@ -11,17 +11,15 @@ namespace ZyGames.Framework.Services.Membership
     internal class MembershipManager
     {
         private readonly ILogger logger = Logger.GetLogger<MembershipManager>();
-        private readonly IServiceProvider serviceProvider;
         private readonly IMembershipLifecycle lifecycle;
         private readonly BinarySerializer binarySerializer;
         private MembershipVersion membershipVersion;
         private List<MembershipMember> membershipMembers;
 
-        public MembershipManager(IServiceProvider serviceProvider)
+        public MembershipManager(IContainer container)
         {
-            this.serviceProvider = serviceProvider;
-            this.lifecycle = serviceProvider.GetRequiredService<IMembershipLifecycle>();
-            this.binarySerializer = serviceProvider.GetRequiredService<BinarySerializer>();
+            this.lifecycle = container.Required<IMembershipLifecycle>();
+            this.binarySerializer = container.Required<BinarySerializer>();
         }
 
         public void UpdateFromSnapshot(MembershipSnapshot snapshot)
@@ -56,7 +54,7 @@ namespace ZyGames.Framework.Services.Membership
 
             membershipMembers = members;
             membershipVersion = snapshot.Version;
-            lifecycle.NotifyObserver(Lifecycles.State.Membership.Changed);
+            lifecycle.Notify(Lifecycles.State.Membership.Changed);
         }
 
         public MembershipVersion Version => membershipVersion;
@@ -71,10 +69,9 @@ namespace ZyGames.Framework.Services.Membership
             var members = membershipMembers;
             if (members != null)
             {
-                ServiceLocator locator;
                 foreach (var member in members)
                 {
-                    if (member.TryGet(identity, out locator))
+                    if (member.TryGet(identity, out ServiceLocator locator))
                     {
                         return locator;
                     }
@@ -92,11 +89,11 @@ namespace ZyGames.Framework.Services.Membership
             {
                 foreach (var member in members)
                 {
-                    foreach (var locator in member.Locators)
+                    foreach (var serviceLocator in member.ServiceLocators)
                     {
-                        if (locator.InterfaceType == serviceInterfaceType)
+                        if (serviceInterfaceType.IsAssignableFrom(serviceLocator.InterfaceType))
                         {
-                            locators.Add(locator);
+                            locators.Add(serviceLocator);
                         }
                     }
                 }
@@ -106,32 +103,32 @@ namespace ZyGames.Framework.Services.Membership
 
         class MembershipMember
         {
-            private readonly MembershipTable table;
-            private readonly ConcurrentDictionary<Identity, ServiceLocator> locators = new ConcurrentDictionary<Identity, ServiceLocator>();
+            private readonly MembershipTable membershipTable;
+            private readonly ConcurrentDictionary<Identity, ServiceLocator> serviceLocators = new ConcurrentDictionary<Identity, ServiceLocator>();
 
-            public MembershipMember(MembershipTable table, IEnumerable<ServiceLocator> locators)
+            public MembershipMember(MembershipTable membershipTable, IEnumerable<ServiceLocator> serviceLocators)
             {
-                this.table = table;
-                foreach (var locator in locators)
+                this.membershipTable = membershipTable;
+                foreach (var serviceLocator in serviceLocators)
                 {
-                    this.locators[locator.Identity] = locator;
+                    this.serviceLocators[serviceLocator.Identity] = serviceLocator;
                 }
             }
 
-            public MembershipEntry Entry => table.Entry;
+            public MembershipEntry Entry => membershipTable.Entry;
 
-            public SlioAddress Address => table.Entry.Address;
+            public Address Address => membershipTable.Entry.Address;
 
-            public ICollection<ServiceLocator> Locators => locators.Values;
+            public ICollection<ServiceLocator> ServiceLocators => serviceLocators.Values;
 
             public bool TryGet(Identity identity, out ServiceLocator locator)
             {
-                return locators.TryGetValue(identity, out locator);
+                return serviceLocators.TryGetValue(identity, out locator);
             }
 
             public bool Contains(Identity identity)
             {
-                return locators.ContainsKey(identity);
+                return serviceLocators.ContainsKey(identity);
             }
         }
     }

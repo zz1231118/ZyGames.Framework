@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "3gcmB+yb0Eau1UQcS1T2VQFoznwYluXXCJDuXUHiK0xfHiBg3DBx+slkYfXnxv3GbSAJcgzeSidB8KoKAgWPXg==",
+  "success": true,
+  "projectFilePath": "D:\\Code\\CSharp\\ZyGames.Framework\\Test\\SimpleFrameworkTest\\SimpleFrameworkTest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Chen Guangxu\\.nuget\\packages\\system.reflection.emit\\4.6.0\\system.reflection.emit.4.6.0.nupkg.sha512",
+    "C:\\Users\\Chen Guangxu\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.6.0\\system.reflection.emit.ilgeneration.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}

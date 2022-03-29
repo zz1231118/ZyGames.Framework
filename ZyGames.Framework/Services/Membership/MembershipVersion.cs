@@ -32,36 +32,40 @@ namespace ZyGames.Framework.Services.Membership
 
         public static bool operator >(MembershipVersion left, MembershipVersion right)
         {
-            return left is object && right is object && left.Version > right.Version;
+            return left is not null && right is not null && left.Version > right.Version;
         }
 
         public static bool operator >=(MembershipVersion left, MembershipVersion right)
         {
-            if (left is object && right is object) return left.version >= right.version;
-            else return ReferenceEquals(left, right);
+            return left is not null && right is not null
+                ? left.version >= right.version
+                : ReferenceEquals(left, right);
         }
 
         public static bool operator ==(MembershipVersion left, MembershipVersion right)
         {
-            if (left is object && right is object) return left.version == right.version;
-            else return ReferenceEquals(left, right);
+            return left is not null && right is not null
+                ? left.version == right.version
+                : ReferenceEquals(left, right);
         }
 
         public static bool operator !=(MembershipVersion left, MembershipVersion right)
         {
-            if (left is object && right is object) return left.version != right.version;
-            else return !ReferenceEquals(left, right);
+            return left is not null && right is not null
+                ? left.version != right.version
+                : !ReferenceEquals(left, right);
         }
 
         public static bool operator <=(MembershipVersion left, MembershipVersion right)
         {
-            if (left is object && right is object) return left.version <= right.version;
-            else return ReferenceEquals(left, right);
+            return left is not null && right is not null
+                ? left.version <= right.version
+                : ReferenceEquals(left, right);
         }
 
         public static bool operator <(MembershipVersion left, MembershipVersion right)
         {
-            return left is object && right is object && left.Version < right.Version;
+            return left is not null && right is not null && left.Version < right.Version;
         }
 
         public MembershipVersion Increment()
@@ -80,7 +84,7 @@ namespace ZyGames.Framework.Services.Membership
 
         public bool Equals(MembershipVersion other)
         {
-            return other != null && other.Version == Version;
+            return other is not null && other.Version == Version;
         }
 
         public override bool Equals(object obj)

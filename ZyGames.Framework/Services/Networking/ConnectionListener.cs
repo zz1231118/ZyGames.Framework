@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+using Framework.Injection;
 using Framework.Net.Sockets;
-using ZyGames.Framework.Injection;
 using ZyGames.Framework.Services.Messaging;
 using ZyGames.Framework.Services.Options;
 
@@ -10,22 +10,22 @@ namespace ZyGames.Framework.Services.Networking
 {
     internal abstract class ConnectionListener
     {
-        private readonly IServiceProvider serviceProvider;
-        private readonly ConnectionListenerOptions connectionListenerOptions;
+        private readonly IContainer container;
+        private readonly ConnectionListenerOptions options;
         private readonly IMessageSerializer messageSerializer;
         private readonly ConcurrentDictionary<Guid, InboundConnection> connections = new ConcurrentDictionary<Guid, InboundConnection>();
         private SocketListener socketListener;
 
-        public ConnectionListener(IServiceProvider serviceProvider, ConnectionListenerOptions connectionListenerOptions)
+        public ConnectionListener(IContainer container, ConnectionListenerOptions options)
         {
-            this.serviceProvider = serviceProvider;
-            this.connectionListenerOptions = connectionListenerOptions;
-            this.messageSerializer = serviceProvider.GetRequiredService<IMessageSerializer>();
+            this.container = container;
+            this.options = options;
+            this.messageSerializer = container.Required<IMessageSerializer>();
         }
 
-        protected IServiceProvider ServiceProvider => serviceProvider;
+        protected IContainer Container => container;
 
-        protected ConnectionListenerOptions Options => connectionListenerOptions;
+        protected ConnectionListenerOptions Options => options;
 
         protected abstract InboundConnection CreateInboundConnection(ExSocket socket);
 
@@ -40,7 +40,7 @@ namespace ZyGames.Framework.Services.Networking
             }
         }
 
-        private void SocketListener_DataRecieved(object sender, SocketEventArgs e)
+        private void SocketListener_Received(object sender, SocketEventArgs e)
         {
             var connection = (Connection)e.Socket.UserToken;
             var message = messageSerializer.Deserialize(e.Data);
@@ -56,11 +56,11 @@ namespace ZyGames.Framework.Services.Networking
 
         public void Start()
         {
-            var options = connectionListenerOptions;
-            var endpoint = options.InsideAddress.EndPoint;
+            var endpoint = options.InsideAddress.GetEndPoint();
             socketListener = new SocketListener(endpoint, options.Backlog, options.MaxConnections);
+            socketListener.BufferSize = options.BufferSize;
             socketListener.Connected += new EventHandler<SocketEventArgs>(SocketListener_Connected);
-            socketListener.DataReceived += new EventHandler<SocketEventArgs>(SocketListener_DataRecieved);
+            socketListener.Received += new EventHandler<SocketEventArgs>(SocketListener_Received);
             socketListener.Disconnected += new EventHandler<SocketEventArgs>(SocketListener_Disconnected);
             socketListener.Start();
         }

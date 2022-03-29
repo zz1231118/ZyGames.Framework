@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Framework.Injection;
 using Framework.Net.Sockets;
 using ZyGames.Framework.Services.Messaging;
 
@@ -7,13 +7,13 @@ namespace ZyGames.Framework.Services.Networking
     internal class ClusterInbounConnection : InboundConnection
     {
         private readonly ClusterConnectionListener connectionListener;
-        private readonly ConnectionManager connectionManager;
-        private SlioAddress localSlioAddress;
-        private SlioAddress remoteSlioAddress;
+        private readonly IConnectionManager connectionManager;
+        private Address localSiloAddress;
+        private Address remoteSiloAddress;
         private bool handshaked;
 
-        public ClusterInbounConnection(IServiceProvider serviceProvider, ClusterConnectionListener connectionListener, ExSocket socket, ConnectionManager connectionManager)
-            : base(serviceProvider, connectionListener, socket)
+        public ClusterInbounConnection(IContainer container, ClusterConnectionListener connectionListener, ExSocket socket, IConnectionManager connectionManager)
+            : base(container, connectionListener, socket)
         {
             this.connectionListener = connectionListener;
             this.connectionManager = connectionManager;
@@ -21,17 +21,17 @@ namespace ZyGames.Framework.Services.Networking
 
         public bool Handshaked => handshaked;
 
-        public SlioAddress LocalSlioAddress => localSlioAddress;
+        public Address LocalSiloAddress => localSiloAddress;
 
-        public SlioAddress RemoteSlioAddress => remoteSlioAddress;
+        public Address RemoteSiloAddress => remoteSiloAddress;
 
         public override void ReceiveMessage(Message message)
         {
             if (!handshaked)
             {
-                localSlioAddress = message.TargetSlio;
-                remoteSlioAddress = message.SendingSlio;
-                connectionManager.Connected(remoteSlioAddress, this);
+                localSiloAddress = message.TargetSilo;
+                remoteSiloAddress = message.SendingSilo;
+                connectionManager.Connected(remoteSiloAddress, this);
                 handshaked = true;
             }
 
@@ -43,7 +43,7 @@ namespace ZyGames.Framework.Services.Networking
             if (handshaked)
             {
                 connectionListener.ConnectionTerminated(this);
-                connectionManager.ConnectionTerminated(remoteSlioAddress, this);
+                connectionManager.ConnectionTerminated(remoteSiloAddress, this);
             }
 
             base.Disconnected(forcible);
